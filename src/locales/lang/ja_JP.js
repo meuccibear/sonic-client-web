@@ -31,7 +31,7 @@ const suite = {
   namePlace: '请填写套件名称',
   perf: '性能采集',
   interval: '采集间隔',
-  devicePlace: '请选择测试设备，可输入型号、备注、中文名称、序列号筛选',
+  devicePlace: '请选择设备，可输入型号、备注、中文名称、序列号筛选',
   selectedCase: '已选用例',
 };
 const testcase = {
@@ -415,16 +415,16 @@ const globalParamsTs = {
 };
 const homeTS = {
   projectOverview: '项目概况',
-  testCaseManagement: '测试用例管理',
+  testCaseManagement: '用例管理',
   testCase: {
-    case: '测试用例',
-    adCase: '安卓端测试用例',
-    iosCase: 'iOS端测试用例',
+    case: '用例',
+    adCase: '安卓端用例',
+    iosCase: 'iOS端用例',
   },
-  testSuite: '测试套件',
+  testSuite: '套件',
   quickOperation: '执行用例',
-  testDataManagement: '测试数据管理',
-  testResults: '测试结果分析',
+  testDataManagement: '数据管理',
+  testResults: '结果分析',
   setting: '持续集成设置',
   package: {
     mange: '安装包管理',
@@ -443,8 +443,8 @@ const jobsTS = {
     name: '任务名称',
     nameIsNull: '任务名称不能为空',
     inputName: '请输入任务名称',
-    testSuiteIsNull: '测试套件不能为空',
-    chooseTestSuite: '请选择测试套件',
+    testSuiteIsNull: '套件不能为空',
+    chooseTestSuite: '请选择套件',
     cron: 'Cron表达式',
     cronIsNull: 'Cron表达式不能为空',
     inputCron: '请输入Cron表达式',
@@ -486,7 +486,7 @@ const jobsTS = {
   del: '确定删除该定时任务吗？',
 };
 const loginTS = {
-  testPlatform: '一站式云真机测试平台',
+  testPlatform: '一站式云真机平台',
   login: {
     message: '注册账号/LDAP域账号登录',
     register: '注册账号登录',
@@ -581,9 +581,9 @@ const resultDetailTS = {
     resultId: '结果Id',
     executeUser: '执行用户',
     runStatus: '运行状态',
-    testPass: '测试通过',
-    testFail: '测试失败',
-    testAlert: '测试告警',
+    testPass: '通过',
+    testFail: '失败',
+    testAlert: '告警',
     endTime: '结束时间',
     totalTime: '总耗时',
     runInfo: '运行信息',
@@ -595,12 +595,12 @@ const resultDetailTS = {
   },
 };
 const ResultsTS = {
-  name: '测试套件名称',
-  testReport: '测试报告',
+  name: '套件名称',
+  testReport: '报告',
   lookReport: '查看报告',
-  interruptTest: '确定中断本次测试吗?',
+  interruptTest: '确定中断本次吗?',
   interrupt: '中断',
-  del: '确定删除该测试报告吗?',
+  del: '确定删除该报告吗?',
 };
 const stepListViewTS = {
   caseInfo: '用例详情',
@@ -612,11 +612,11 @@ const stepListViewTS = {
   testMessage: '用例描述',
 };
 const testSuitesTS = {
-  testStart: '测试已开始...',
-  info: '测试套件信息',
-  add: '添加测试套件',
+  testStart: '已开始...',
+  info: '套件信息',
+  add: '添加套件',
   id: '套件Id',
-  searchMessage: '输入测试套件名称搜索',
+  searchMessage: '输入套件名称搜索',
   kitPlatform: '套件平台',
   coverType: '覆盖类型',
   testCover: '用例覆盖',
@@ -628,7 +628,7 @@ const testSuitesTS = {
   viewList: '查看列表',
   associatedCase: '关联用例',
   run: '运行',
-  delMessage: '确定删除该测试套件吗？套件下的用例将移出该套件',
+  delMessage: '确定删除该套件吗？套件下的用例将移出该套件',
 };
 const versionsTS = {
   name: '名称',
@@ -795,7 +795,7 @@ const androidRemoteTS = {
     noScreenshots: '暂无截图',
     savePicture: '保存图片',
     precautions: '注意事项',
-    precautionsText: '该功能仍处于Beta测试中，暂时屏蔽reboot、rm、su等风险指令',
+    precautionsText: '该功能仍处于Beta中，暂时屏蔽reboot、rm、su等风险指令',
     inputSend: '输入指令后，点击Send或回车发送',
     enterInput: '请输入输入过滤文本',
     UIAutomation: {
@@ -808,7 +808,7 @@ const androidRemoteTS = {
     chooseProject: '请选择关联项目',
     addCase: '新增用例',
     hintText: '提示',
-    hintMessage: '该功能需要先从上方关联测试用例',
+    hintMessage: '该功能需要先从上方关联用例',
     nativeControls: '原生控件',
     retrieveControlEle: '重新获取控件元素',
     activity: '当前Activity',
@@ -915,14 +915,14 @@ const sysJobsTS = {
   code: {
     cleanFile: '清理系统文件',
     cleanFileText:
-      '清理测试过程产生的图片、录像或远控期间临时apk包等等文件，保留天数为 [前两次定时任务到本次定时任务间隔] 天数。',
-    cleanResult: '清理测试报告',
+      '清理过程产生的图片、录像或远控期间临时apk包等等文件，保留天数为 [前两次定时任务到本次定时任务间隔] 天数。',
+    cleanResult: '清理报告',
     cleanResultText:
-      '清理测试报告，保留天数为 [前两次定时任务到本次定时任务间隔] 天数。',
+      '清理报告，保留天数为 [前两次定时任务到本次定时任务间隔] 天数。',
     sendDayReport: '发送日报',
-    sendDayReportText: '发送测试日报到群机器人.',
+    sendDayReportText: '发送日报到群机器人.',
     sendWeekReport: '发送周报',
-    sendWeekReportText: '发送测试周报到群机器人.',
+    sendWeekReportText: '发送周报到群机器人.',
   },
   page: {
     type: '类型',

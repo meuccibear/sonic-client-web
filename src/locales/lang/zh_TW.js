@@ -31,7 +31,7 @@ const suite = {
   namePlace: '请填写套件名称',
   perf: '性能采集',
   interval: '采集间隔',
-  devicePlace: '请选择测试设备，可输入型号、备注、中文名称、序列号筛选',
+  devicePlace: '请选择设备，可输入型号、备注、中文名称、序列号筛选',
   selectedCase: '已选用例',
 };
 const testcase = {

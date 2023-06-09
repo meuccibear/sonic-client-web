@@ -2624,12 +2624,12 @@ onMounted(() => {
           class="demo-table-expand"
           size="small"
         >
-          <el-form-item label="测试包名">
+          <el-form-item label="包名">
             <el-input
               v-model="monkey.packageName"
               size="small"
               type="text"
-              placeholder="请输入测试包名"
+              placeholder="请输入包名"
             ></el-input>
           </el-form-item>
           <el-form-item label="事件数量">
@@ -2798,7 +2798,7 @@ onMounted(() => {
         :width="300"
         trigger="hover"
       >
-        <p>意为该测试步骤关联的逻辑处理</p>
+        <p>意为该步骤关联的逻辑处理</p>
         <div>
           <strong style="color: #409eff">if：</strong
           >该步骤无异常时，会执行子步骤
@@ -2836,7 +2836,7 @@ onMounted(() => {
           :width="300"
           trigger="hover"
         >
-          <p>意为该测试步骤出现异常时的处理方案</p>
+          <p>意为该步骤出现异常时的处理方案</p>
           <div>
             <strong style="color: #409eff">忽略：</strong
             >忽略异常并继续执行（逻辑处理时不抛出异常）
@@ -2847,7 +2847,7 @@ onMounted(() => {
           </div>
           <div>
             <strong style="color: #f56c6c">中断：</strong
-            >标记失败并获取异常截图、异常堆栈和测试录像，然后中断执行（逻辑处理时抛出异常）
+            >标记失败并获取异常截图、异常堆栈和录像，然后中断执行（逻辑处理时抛出异常）
           </div>
           <template #reference>
             <el-icon

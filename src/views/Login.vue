@@ -210,7 +210,7 @@ onMounted(() => {
             </el-form-item>
             <!-- <el-form-item prop="password">
               <el-select style="width: 100%;" v-model="register.role">
-                <el-option label="测试工程师" :value="2"></el-option>
+                <el-option label="工程师" :value="2"></el-option>
                 <el-option label="开发工程师" :value="3"></el-option>
               </el-select>
             </el-form-item> -->

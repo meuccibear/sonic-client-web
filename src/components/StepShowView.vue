@@ -636,7 +636,7 @@ const getNotes = (text, type) => {
   </span>
   <span v-if="step.stepType === 'monkey'">
     <el-tag style="margin-right: 10px" type="warning" size="small"
-    >随机事件测试</el-tag
+    >随机事件</el-tag
     >
     应用包名：{{ JSON.parse(step.content).packageName }}&nbsp;&nbsp;事件数：{{
       JSON.parse(step.content).pctNum

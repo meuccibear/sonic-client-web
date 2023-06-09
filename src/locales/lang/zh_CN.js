@@ -31,7 +31,7 @@ const suite = {
   namePlace: '请填写套件名称',
   perf: '性能采集',
   interval: '采集间隔',
-  devicePlace: '请选择测试设备，可输入型号、备注、中文名称、序列号筛选',
+  devicePlace: '请选择设备，可输入型号、备注、中文名称、序列号筛选',
   selectedCase: '已选用例',
 };
 const testcase = {
@@ -142,7 +142,7 @@ const project = {
     customRobots: '自定义',
     useSysDefault: '恢复系统默认设置',
     globalRobot: '启用公共机器人',
-    testsuiteDefaultAlertRobotIds: '测试套件默认通知所有机器人',
+    testsuiteDefaultAlertRobotIds: '套件默认通知所有机器人',
   },
 };
 const perf = {
@@ -183,7 +183,7 @@ const robot = {
   template: '消息模板',
   muteRule: '静默条件',
   sceneList: {
-    testsuite: '测试套件',
+    testsuite: '套件',
     summary: '项目日/周报',
     agent: '设备Agent',
   },
@@ -282,7 +282,7 @@ const devices = {
   status: {
     ONLINE: '空闲中',
     DEBUGGING: '占用中',
-    TESTING: '测试中',
+    TESTING: '中',
     DISCONNECTED: '已断开',
     OFFLINE: '已离线',
     UNAUTHORIZED: '未授权',
@@ -328,7 +328,7 @@ const layout = {
   signOut: '注销',
   aboutSonic: '关于Sonic',
   backHome: '回到首页',
-  welcomeSpeech: '欢迎来到Sonic云真机测试平台，请选择项目进入',
+  welcomeSpeech: '欢迎来到Sonic云真机平台，请选择项目进入',
   addProject: '新增项目',
   officialWebSite: 'Sonic官方网站',
   document: '使用文档',
@@ -347,7 +347,7 @@ const form = {
   groupPlaceholder: '请选择分组',
   case: '用例',
   casePlaceholder: '请选择用例',
-  testEngineer: '测试工程师',
+  testEngineer: '工程师',
   developmentEngineer: '开发工程师',
   oldPasswordNotEmpty: '旧密码不能为空',
   oldPassword: '旧密码',
@@ -395,12 +395,12 @@ const routes = {
   home: '首页',
   deviceCenter: '设备中心',
   remoteControl: '远程控制',
-  androidTestCase: '安卓测试用例',
-  iosTestCase: 'IOS测试用例',
+  androidTestCase: '安卓用例',
+  iosTestCase: 'IOS用例',
   operateSteps: '运行步骤',
-  testSuite: '测试套件',
+  testSuite: '套件',
   quickOperation: '执行用例',
-  testResult: '测试结果',
+  testResult: '结果',
   reportDetails: '报告详情',
   publicSteps: '公共步骤',
   controlElement: '控件元素',
@@ -473,16 +473,16 @@ const globalParamsTs = {
 };
 const homeTS = {
   projectOverview: '项目概况',
-  testCaseManagement: '测试用例管理',
+  testCaseManagement: '用例管理',
   testCase: {
-    case: '测试用例',
-    adCase: '安卓端测试用例',
-    iosCase: 'iOS端测试用例',
+    case: '用例',
+    adCase: '安卓端用例',
+    iosCase: 'iOS端用例',
   },
-  testSuite: '测试套件',
+  testSuite: '套件',
   quickOperation: '执行用例',
-  testDataManagement: '测试数据管理',
-  testResults: '测试结果分析',
+  testDataManagement: '数据管理',
+  testResults: '结果分析',
   setting: '持续集成设置',
   package: {
     mange: '安装包管理',
@@ -501,8 +501,8 @@ const jobsTS = {
     name: '任务名称',
     nameIsNull: '任务名称不能为空',
     inputName: '请输入任务名称',
-    testSuiteIsNull: '测试套件不能为空',
-    chooseTestSuite: '请选择测试套件',
+    testSuiteIsNull: '套件不能为空',
+    chooseTestSuite: '请选择套件',
     cron: 'Cron表达式',
     cronIsNull: 'Cron表达式不能为空',
     inputCron: '请输入Cron表达式',
@@ -544,7 +544,7 @@ const jobsTS = {
   del: '确定删除该定时任务吗？',
 };
 const loginTS = {
-  testPlatform: '一站式云真机测试平台',
+  testPlatform: '一站式云真机平台',
   login: {
     message: '注册账号/LDAP域账号登录',
     register: '注册账号登录',
@@ -639,9 +639,9 @@ const resultDetailTS = {
     resultId: '结果Id',
     executeUser: '执行用户',
     runStatus: '运行状态',
-    testPass: '测试通过',
-    testFail: '测试失败',
-    testAlert: '测试告警',
+    testPass: '通过',
+    testFail: '失败',
+    testAlert: '告警',
     endTime: '结束时间',
     totalTime: '总耗时',
     runInfo: '运行信息',
@@ -653,12 +653,12 @@ const resultDetailTS = {
   },
 };
 const ResultsTS = {
-  name: '测试套件名称',
-  testReport: '测试报告',
+  name: '套件名称',
+  testReport: '报告',
   lookReport: '查看报告',
-  interruptTest: '确定中断本次测试吗?',
+  interruptTest: '确定中断本次吗?',
   interrupt: '中断',
-  del: '确定删除该测试报告吗?',
+  del: '确定删除该报告吗?',
 };
 const stepListViewTS = {
   caseInfo: '用例详情',
@@ -670,11 +670,11 @@ const stepListViewTS = {
   testMessage: '用例描述',
 };
 const testSuitesTS = {
-  testStart: '测试已开始...',
-  info: '测试套件信息',
-  add: '添加测试套件',
+  testStart: '已开始...',
+  info: '套件信息',
+  add: '添加套件',
   id: '套件Id',
-  searchMessage: '输入测试套件名称搜索',
+  searchMessage: '输入套件名称搜索',
   kitPlatform: '套件平台',
   coverType: '覆盖类型',
   testCover: '用例覆盖',
@@ -686,7 +686,7 @@ const testSuitesTS = {
   viewList: '查看列表',
   associatedCase: '关联用例',
   run: '运行',
-  delMessage: '确定删除该测试套件吗？套件下的用例将移出该套件',
+  delMessage: '确定删除该套件吗？套件下的用例将移出该套件',
   ui: {
     alertRobotIds: '通知选项',
     defaultAlertRobotIds: '使用项目默认设置',
@@ -857,7 +857,7 @@ const androidRemoteTS = {
     noScreenshots: '暂无截图',
     savePicture: '保存图片',
     precautions: '注意事项',
-    precautionsText: '该功能仍处于Beta测试中，暂时屏蔽reboot、rm、su等风险指令',
+    precautionsText: '该功能仍处于Beta中，暂时屏蔽reboot、rm、su等风险指令',
     inputSend: '输入指令后，点击Send或回车发送',
     enterInput: '请输入输入过滤文本',
     UIAutomation: {
@@ -870,7 +870,7 @@ const androidRemoteTS = {
     chooseProject: '请选择关联项目',
     addCase: '新增用例',
     hintText: '提示',
-    hintMessage: '该功能需要先从上方关联测试用例',
+    hintMessage: '该功能需要先从上方关联用例',
     nativeControls: '原生控件',
     retrieveControlEle: '重新获取控件元素',
     activity: '当前Activity',
@@ -936,10 +936,10 @@ const settingIndexTS = {
   },
   remote: {
     alertMsg:
-      '用于配置远程控制的最长占用时间，超过该时间后，会自动解除当前的占用情况恢复为空闲。（仅影响远程控制和通过REST API占用的最大时长，运行测试的设备不受影响）',
+      '用于配置远程控制的最长占用时间，超过该时间后，会自动解除当前的占用情况恢复为空闲。（仅影响远程控制和通过REST API占用的最大时长，运行的设备不受影响）',
     text: '远控最长占用时间：',
     idle_alertMsg:
-      '用于配置远程控制的最长闲置时间，若用户超过该时间无任何操作，会自动解除当前的占用情况恢复为空闲。（仅影响远程控制，运行测试的设备不受影响）',
+      '用于配置远程控制的最长闲置时间，若用户超过该时间无任何操作，会自动解除当前的占用情况恢复为空闲。（仅影响远程控制，运行的设备不受影响）',
     idle_text: '远控最长闲置时间：',
   },
 };
@@ -978,14 +978,14 @@ const sysJobsTS = {
   code: {
     cleanFile: '清理系统文件',
     cleanFileText:
-      '清理测试过程产生的图片、录像或远控期间临时apk包等等文件，保留天数为 [前两次定时任务到本次定时任务间隔] 天数。',
-    cleanResult: '清理测试报告',
+      '清理过程产生的图片、录像或远控期间临时apk包等等文件，保留天数为 [前两次定时任务到本次定时任务间隔] 天数。',
+    cleanResult: '清理报告',
     cleanResultText:
-      '清理测试报告，保留天数为 [前两次定时任务到本次定时任务间隔] 天数。',
+      '清理报告，保留天数为 [前两次定时任务到本次定时任务间隔] 天数。',
     sendDayReport: '发送日报',
-    sendDayReportText: '发送测试日报到群机器人.',
+    sendDayReportText: '发送日报到群机器人.',
     sendWeekReport: '发送周报',
-    sendWeekReportText: '发送测试周报到群机器人.',
+    sendWeekReportText: '发送周报到群机器人.',
   },
   page: {
     type: '类型',
