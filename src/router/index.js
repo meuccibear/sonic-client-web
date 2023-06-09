@@ -88,6 +88,12 @@ const getRoutes = () => [
         meta: { title: $tc('routes.testSuite') },
       },
       {
+        path: 'QuickOperation',
+        name: 'QuickOperation',
+        component: () => import('../views/QuickOperation.vue'),
+        meta: { title: $tc('routes.quickOperation') },
+      },
+      {
         path: 'Results',
         name: 'Results',
         component: () => import('../views/Results.vue'),

@@ -82,6 +82,11 @@ onMounted(() => {
           >
             <i class="el-icon-document-copy"></i>{{ $t('homeTS.testSuite') }}
           </el-menu-item>
+          <el-menu-item
+              :index="'/Home/' + route.params.projectId + '/QuickOperation'"
+          >
+            <i class="el-icon-document-copy"></i>{{ $t('homeTS.quickOperation') }}
+          </el-menu-item>
           <el-menu-item :index="'/Home/' + route.params.projectId + '/Jobs'">
             <i class="el-icon-timer"></i>{{ $t('routes.timedTask') }}
           </el-menu-item>
