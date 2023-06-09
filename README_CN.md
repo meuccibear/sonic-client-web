@@ -23,8 +23,8 @@
   <a href="#">  
     <img src="https://img.shields.io/github/commit-activity/m/SonicCloudOrg/sonic-client-web">
   </a>
-  <a href="https://hub.docker.com/repository/docker/sonicorg/sonic-client-web">  
-    <img src="https://img.shields.io/docker/pulls/sonicorg/sonic-client-web">
+  <a href="https://hub.docker.com/repository/docker/zhuozhuang/sonic-client-web">  
+    <img src="https://img.shields.io/docker/pulls/zhuozhuang/sonic-client-web">
   </a>
   <a href="https://github.com/SonicCloudOrg/sonic-server/blob/main/LICENSE">  
     <img src="https://img.shields.io/github/license/SonicCloudOrg/sonic-server?color=green&label=license&logo=license&logoColor=green">
@@ -73,7 +73,7 @@ docker build -t zhuozhuang/sonic-client-web .
 
 ### Docker模式
 
-> [Click Here!](https://hub.docker.com/repository/docker/sonicorg/sonic-client-web)
+> [Click Here!](https://hub.docker.com/repository/docker/zhuozhuang/sonic-client-web)
 
 ### dist 模式
 
