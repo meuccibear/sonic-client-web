@@ -154,7 +154,7 @@ watch(dialogAgent, (newValue, oldValue) => {
 const agent = ref({
   id: 0,
   name: '',
-  highTemp: 45,
+  highTemp: 200,
   highTempTime: 15,
   robotSecret: '',
   robotToken: '',
