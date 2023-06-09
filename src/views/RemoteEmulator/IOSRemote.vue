@@ -1772,7 +1772,7 @@ const checkAlive = () => {
                           }"
                           @click="
                             copy(
-                              'sib remote connect --host ' +
+                              'sonic-ios-bridge remote connect --host ' +
                                 agent['host'] +
                                 ' -p ' +
                                 remoteSIBPort
@@ -1780,7 +1780,7 @@ const checkAlive = () => {
                           "
                         >
                           <strong style="color: #f2f6fc">{{
-                            'sib remote connect --host ' +
+                            'sonic-ios-bridge remote connect --host ' +
                             agent['host'] +
                             ' -p ' +
                             remoteSIBPort

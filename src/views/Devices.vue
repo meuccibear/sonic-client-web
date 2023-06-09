@@ -998,7 +998,7 @@ onUnmounted(() => {
           v-model="agent.highTemp"
           :format-tooltip="formatHighTemp"
           show-input
-          :max="80"
+          :max="200"
           :min="1"
         />
       </el-form-item>
