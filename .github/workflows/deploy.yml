@@ -38,4 +38,4 @@ jobs:
       - name: build docker image
         run: docker build -t zhuozhuang/sonic-client-web:${{ steps.previoustag.outputs.tag }} .
       - name: push docker image
-        run: docker push sonicorg/sonic-client-web:${{ steps.previoustag.outputs.tag }}
+        run: docker push zhuozhuang/sonic-client-web:${{ steps.previoustag.outputs.tag }}
