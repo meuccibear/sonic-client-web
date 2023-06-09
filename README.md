@@ -66,7 +66,7 @@ npm run build
 Build image
 
 ```
-docker build -t sonicorg/sonic-client-web .
+docker build -t zhuozhuang/sonic-client-web .
 ```
 
 ## Deployment mode

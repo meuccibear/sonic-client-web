@@ -66,7 +66,7 @@ npm run build
 构建镜像
 
 ```
-docker build -t sonicorg/sonic-client-web .
+docker build -t zhuozhuang/sonic-client-web .
 ```
 
 ## 部署模式
