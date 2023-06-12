@@ -227,7 +227,7 @@ const devices = {
   status: {
     ONLINE: '空閒中',
     DEBUGGING: '佔用中',
-    TESTING: '測試中',
+    TESTING: '中',
     DISCONNECTED: '已斷開',
     OFFLINE: '已離線',
     UNAUTHORIZED: '未授權',
@@ -273,7 +273,7 @@ const layout = {
   signOut: '登出',
   aboutSonic: '關於Sonic',
   backHome: '回到首頁',
-  welcomeSpeech: '歡迎來到Sonic雲真機測試平台，請選擇項目進入',
+  welcomeSpeech: '歡迎來到Sonic雲真機平台，請選擇項目進入',
   addProject: '新增項目',
   officialWebSite: 'Sonic官方網站',
   document: '使用文档',
@@ -289,7 +289,7 @@ const form = {
   role: '角色',
   group: '分组',
   case: '用例',
-  testEngineer: '測試工程師',
+  testEngineer: '工程師',
   developmentEngineer: '開發工程師',
   oldPasswordNotEmpty: '舊密碼不能空白',
   oldPassword: '舊密碼',
@@ -337,12 +337,12 @@ const routes = {
   home: '首頁',
   deviceCenter: '設備中心',
   remoteControl: '遠端控制',
-  androidTestCase: '安卓測試案例',
-  iosTestCase: 'iOS測試案例',
+  androidTestCase: '安卓案例',
+  iosTestCase: 'iOS案例',
   operateSteps: '操作步驟',
-  testSuite: '測試套件',
+  testSuite: '分组',
   quickOperation: '执行用例',
-  testResult: '測試結果',
+  testResult: '結果',
   reportDetails: '報告詳情',
   publicSteps: '公共步驟',
   controlElement: '控件元素',
@@ -413,16 +413,16 @@ const globalParamsTs = {
 };
 const homeTS = {
   projectOverview: '項目概況',
-  testCaseManagement: '測試案例管理',
+  testCaseManagement: '案例管理',
   testCase: {
-    case: '測試案例',
-    adCase: '安卓端測試案例',
-    iosCase: 'iOS端測試案例',
+    case: '案例',
+    adCase: '安卓端案例',
+    iosCase: 'iOS端案例',
   },
-  testSuite: '測試套件',
+  testSuite: '分组',
   quickOperation: '执行用例',
-  testDataManagement: '測試資料管理',
-  testResults: '測試結果分析',
+  testDataManagement: '資料管理',
+  testResults: '結果分析',
   setting: '持續整合設置',
   package: {
     mange: '安裝包管理',
@@ -441,8 +441,8 @@ const jobsTS = {
     name: '任務名稱',
     nameIsNull: '任務名稱不能空白',
     inputName: '請輸入任務名稱',
-    testSuiteIsNull: '測試套件不能空白',
-    chooseTestSuite: '請選擇測試套件',
+    testSuiteIsNull: '套件不能空白',
+    chooseTestSuite: '請選擇套件',
     cron: 'Cron表達式',
     cronIsNull: 'Cron表達式不能空白',
     inputCron: '請輸入Cron表達式',
@@ -484,7 +484,7 @@ const jobsTS = {
   del: '確定刪除該排程任務嗎？',
 };
 const loginTS = {
-  testPlatform: '一站式雲真機測試平台',
+  testPlatform: '一站式雲真機平台',
   login: {
     message: '註冊帳號/LDAP網域帳號登入',
     register: '註冊帳號登錄',
@@ -579,9 +579,9 @@ const resultDetailTS = {
     resultId: '結果Id',
     executeUser: '執行用戶',
     runStatus: '運行狀態',
-    testPass: '測試通過',
-    testFail: '測試失敗',
-    testAlert: '測試警報',
+    testPass: '通過',
+    testFail: '失敗',
+    testAlert: '警報',
     endTime: '結束時間',
     totalTime: '總耗時',
     runInfo: '運行資訊',
@@ -593,12 +593,12 @@ const resultDetailTS = {
   },
 };
 const ResultsTS = {
-  name: '測試套件名稱',
-  testReport: '測試報告',
+  name: '套件名稱',
+  testReport: '報告',
   lookReport: '查看報告',
-  interruptTest: '確定中斷本次測試嗎?',
+  interruptTest: '確定中斷本次嗎?',
   interrupt: '中斷',
-  del: '確定刪除該測試報告嗎?',
+  del: '確定刪除該報告嗎?',
 };
 const stepListViewTS = {
   caseInfo: '案例詳情',
@@ -610,11 +610,11 @@ const stepListViewTS = {
   testMessage: '案例描述',
 };
 const testSuitesTS = {
-  testStart: '測試已開始...',
-  info: '測試套件資訊',
-  add: '添加測試套件',
+  testStart: '已開始...',
+  info: '套件資訊',
+  add: '添加套件',
   id: '套件Id',
-  searchMessage: '輸入測試套件名稱搜索',
+  searchMessage: '輸入套件名稱搜索',
   kitPlatform: '套件平台',
   coverType: '覆蓋類型',
   testCover: '案例覆蓋',
@@ -626,7 +626,7 @@ const testSuitesTS = {
   viewList: '查看列表',
   associatedCase: '關聯案例',
   run: '運行',
-  delMessage: '確定刪除該測試套件嗎？套件下的案例將移出該套件',
+  delMessage: '確定刪除該套件嗎？套件下的案例將移出該套件',
 };
 const versionsTS = {
   name: '名称',
@@ -793,7 +793,7 @@ const androidRemoteTS = {
     noScreenshots: '暫無截圖',
     savePicture: '保存圖片',
     precautions: '注意事項',
-    precautionsText: '該功能仍處於Beta測試中，暫時屏蔽reboot、rm、su等危險指令',
+    precautionsText: '該功能仍處於Beta中，暫時屏蔽reboot、rm、su等危險指令',
     inputSend: '輸入指令後，點擊Send或Enter發送',
     enterInput: '請輸入輸入過濾文本',
     UIAutomation: {
@@ -806,7 +806,7 @@ const androidRemoteTS = {
     chooseProject: '請選擇關聯項目',
     addCase: '新增案例',
     hintText: '提示',
-    hintMessage: '該功能需要先從上方關聯測試案例',
+    hintMessage: '該功能需要先從上方關聯案例',
     nativeControls: '原生控件',
     retrieveControlEle: '重新獲取控件元素',
     activity: '當前Activity',
@@ -871,10 +871,10 @@ const settingIndexTS = {
   },
   remote: {
     alertMsg:
-      '用於配置遠程控製的最長占用時間，超過該時間後，會自動解除當前的占用情況恢復為空閑。（僅影響遠程控制和通過REST API佔用的最大時長，運行測試的設備不受影響）',
+      '用於配置遠程控製的最長占用時間，超過該時間後，會自動解除當前的占用情況恢復為空閑。（僅影響遠程控制和通過REST API佔用的最大時長，運行的設備不受影響）',
     text: '遠控最長占用時間：',
     idle_alertMsg:
-      '用於配置遠程控製的最長閑置時間，若用戶超過該時間長度無任何操作，會自動解除當前的占用情況恢復為空閑。（僅影響遠程控製，運行測試的設備不受影響）',
+      '用於配置遠程控製的最長閑置時間，若用戶超過該時間長度無任何操作，會自動解除當前的占用情況恢復為空閑。（僅影響遠程控製，運行的設備不受影響）',
     idle_text: '遠控最長閑置時間：',
   },
 };
@@ -913,14 +913,14 @@ const sysJobsTS = {
   code: {
     cleanFile: '清理系統檔',
     cleanFileText:
-      '清理測試過程產生的圖片、錄影或遠控期間臨時apk包等等檔，保留天數為 [前兩次排程任務到本次定時任務間隔] 天數。',
-    cleanResult: '清理測試報告',
+      '清理過程產生的圖片、錄影或遠控期間臨時apk包等等檔，保留天數為 [前兩次排程任務到本次定時任務間隔] 天數。',
+    cleanResult: '清理報告',
     cleanResultText:
-      '清理測試報告，保留天數為 [前兩次排程任務到本次定時任務間隔] 天數。',
+      '清理報告，保留天數為 [前兩次排程任務到本次定時任務間隔] 天數。',
     sendDayReport: '發送日報',
-    sendDayReportText: '發送測試日報到群機器人.',
+    sendDayReportText: '發送日報到群機器人.',
     sendWeekReport: '發送週報',
-    sendWeekReportText: '發送測試週報到群機器人.',
+    sendWeekReportText: '發送週報到群機器人.',
   },
   page: {
     type: '類型',
