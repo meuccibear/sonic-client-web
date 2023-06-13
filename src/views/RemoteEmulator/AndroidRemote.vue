@@ -631,10 +631,11 @@ const terminalWebsocketOnmessage = (message) => {
       cmdIsDone.value = true;
       break;
     case 'error':
-      ElMessage.error({
-        message: $t('androidRemoteTS.systemException'),
-      });
-      close('WebSocket 错误');
+      console.log(message.data)
+      // ElMessage.error({
+      //   message: $t('androidRemoteTS.systemException'),
+      // });
+      close($t('androidRemoteTS.systemException'));
       break;
   }
 };
@@ -696,10 +697,11 @@ const screenWebsocketOnmessage = (message) => {
         break;
       }
       case 'error':
-        ElMessage.error({
-          message: $t('androidRemoteTS.systemException'),
-        });
-        close('WebSocket 错误');
+        console.log(message.data)
+        // ElMessage.error({
+        //   message: $t('androidRemoteTS.systemException'),
+        // });
+        close($t('androidRemoteTS.systemException'));
         break;
     }
   }
@@ -868,10 +870,11 @@ const websocketOnmessage = (message) => {
       break;
     }
     case 'error': {
-      ElMessage.error({
-        message: $t('androidRemoteTS.systemException'),
-      });
-      close('WebSocket 错误');
+      console.log(message.data)
+      // ElMessage.error({
+      //   message: $t('androidRemoteTS.systemException'),
+      // });
+      close($t('androidRemoteTS.systemException'));
       router.go(-1);
       break;
     }
