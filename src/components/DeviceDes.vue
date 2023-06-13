@@ -1,14 +1,14 @@
 <script setup>
-import { useI18n } from 'vue-i18n';
-import { ElMessage } from 'element-plus';
+import {useI18n} from 'vue-i18n';
+import {ElMessage} from 'element-plus';
 import ColorImg from '@/components/ColorImg.vue';
-import { useRouter } from 'vue-router';
+import {useRouter} from 'vue-router';
 import RenderStatus from './RenderStatus.vue';
 import RenderDeviceName from './RenderDeviceName.vue';
 import axios from '../http/axios';
 
 const router = useRouter();
-const { t: $t } = useI18n();
+const {t: $t} = useI18n();
 const img = import.meta.globEager('./../assets/img/*');
 const props = defineProps({
   device: Object,
@@ -24,14 +24,14 @@ const upload = (content) => {
   formData.append('file', content.file);
   formData.append('type', 'keepFiles');
   axios
-    .post('/folder/upload', formData, {
-      headers: { 'Content-type': 'multipart/form-data' },
-    })
-    .then((resp) => {
-      if (resp.code === 2000) {
-        updateImg(content.data.id, resp.data);
-      }
-    });
+      .post('/folder/upload', formData, {
+        headers: {'Content-type': 'multipart/form-data'},
+      })
+      .then((resp) => {
+        if (resp.code === 2000) {
+          updateImg(content.data.id, resp.data);
+        }
+      });
 };
 const beforeAvatarUpload = (file) => {
   if (file.name.endsWith('.jpg') || file.name.endsWith('.png')) {
@@ -43,7 +43,7 @@ const beforeAvatarUpload = (file) => {
   return false;
 };
 const updateImg = (id, imgUrl) => {
-  axios.put('/controller/devices/updateImg', { id, imgUrl }).then((resp) => {
+  axios.put('/controller/devices/updateImg', {id, imgUrl}).then((resp) => {
     if (resp.code === 2000) {
       ElMessage.success({
         message: resp.message,
@@ -54,21 +54,21 @@ const updateImg = (id, imgUrl) => {
 };
 const saveDetail = (device) => {
   axios
-    .put('/controller/devices/saveDetail', {
-      id: device.id,
-      password: device.password,
-      nickName: device.nickName,
-    })
-    .then((resp) => {
-      if (resp.code === 2000) {
-        ElMessage.success({
-          message: resp.message,
-        });
-      }
-    });
+      .put('/controller/devices/saveDetail', {
+        id: device.id,
+        password: device.password,
+        nickName: device.nickName,
+      })
+      .then((resp) => {
+        if (resp.code === 2000) {
+          ElMessage.success({
+            message: resp.message,
+          });
+        }
+      });
 };
 const deleteDevice = (id) => {
-  axios.delete('/controller/devices', { params: { id } }).then((resp) => {
+  axios.delete('/controller/devices', {params: {id}}).then((resp) => {
     if (resp.code === 2000) {
       ElMessage.success({
         message: resp.message,
@@ -91,7 +91,7 @@ const jump = (id, platform) => {
   window.open(routeData.href, '_blank');
 };
 const reboot = (id) => {
-  axios.get('/transport/exchange/reboot', { params: { id } }).then((resp) => {
+  axios.get('/transport/exchange/reboot', {params: {id}}).then((resp) => {
     if (resp.code === 2000) {
       ElMessage.success({
         message: resp.message,
@@ -137,17 +137,17 @@ const findAgentById = (id) => {
 
 <template>
   <el-card
-    shadow="hover"
-    :body-style="{ padding: '15px 20px 15px 10px' }"
-    class="device-card"
+      shadow="hover"
+      :body-style="{ padding: '15px 20px 15px 10px' }"
+      class="device-card"
   >
     <template #header>
       <div style="display: flex; justify-content: space-between">
         <RenderDeviceName :device="device"></RenderDeviceName>
         <RenderStatus
-          :status="device.status"
-          :user="device.user"
-          :ud-id="device.udId"
+            :status="device.status"
+            :user="device.user"
+            :ud-id="device.udId"
         ></RenderStatus>
       </div>
     </template>
@@ -155,27 +155,27 @@ const findAgentById = (id) => {
       <el-col :span="10">
         <div style="text-align: center">
           <el-image
-            style="height: 160px"
-            fit="contain"
-            :src="getPhoneImg(device.model, device['imgUrl'])"
-            :preview-src-list="[getPhoneImg(device.model, device['imgUrl'])]"
-            hide-on-click-modal
+              style="height: 160px"
+              fit="contain"
+              :src="getPhoneImg(device.model, device['imgUrl'])"
+              :preview-src-list="[getPhoneImg(device.model, device['imgUrl'])]"
+              hide-on-click-modal
           />
         </div>
       </el-col>
       <el-col :span="14">
         <el-form
-          label-position="left"
-          class="device-form"
-          label-width="70px"
-          style="margin: 0 0 15px 10px; white-space: nowrap"
+            label-position="left"
+            class="device-form"
+            label-width="70px"
+            style="margin: 0 0 15px 10px; white-space: nowrap"
         >
           <el-form-item v-if="!detail" :label="$t('devices.form.model')">
             <div>{{ device.model }}</div>
           </el-form-item>
           <el-form-item :label="$t('devices.form.manufacturer')">
             <img
-              v-if="
+                v-if="
                 device.manufacturer === 'HUAWEI' ||
                 device.manufacturer === 'samsung' ||
                 device.manufacturer === 'OnePlus' ||
@@ -183,122 +183,67 @@ const findAgentById = (id) => {
                 device.manufacturer === 'motorola' ||
                 device.manufacturer === 'HONOR'
               "
-              style="width: 80px"
-              :src="getImg(device.manufacturer)"
+                style="width: 80px"
+                :src="getImg(device.manufacturer)"
             />
             <img
-              v-else-if="
+                v-else-if="
                 device.manufacturer === 'Xiaomi' ||
                 device.manufacturer === 'LGE' ||
                 device.manufacturer === 'HTC' ||
                 device.manufacturer === 'deltainno'
               "
-              style="width: 30px"
-              :src="getImg(device.manufacturer)"
+                style="width: 30px"
+                :src="getImg(device.manufacturer)"
             />
             <img
-              v-else-if="
+                v-else-if="
                 device.manufacturer === 'blackshark' ||
                 device.manufacturer === 'APPLE'
               "
-              style="width: 22px"
-              :src="getImg(device.manufacturer)"
+                style="width: 22px"
+                :src="getImg(device.manufacturer)"
             />
             <img
-              v-else-if="
+                v-else-if="
                 getImg(device.manufacturer) ==
                 img['./../assets/img/unName.jpg'].default
               "
-              style="width: 30px"
-              :src="getImg(device.manufacturer)"
+                style="width: 30px"
+                :src="getImg(device.manufacturer)"
             />
             <img
-              v-else
-              style="width: 70px"
-              :src="getImg(device.manufacturer)"
+                v-else
+                style="width: 70px"
+                :src="getImg(device.manufacturer)"
             />
           </el-form-item>
           <el-form-item :label="$t('devices.form.system')">
             <span v-if="device.platform === 1">
               <img
-                v-if="device['isHm'] === 0"
-                style="width: 30px"
-                :src="getImg('ANDROID')"
+                  v-if="device['isHm'] === 0"
+                  style="width: 30px"
+                  :src="getImg('ANDROID')"
               />
               <img
-                v-if="device['isHm'] === 1"
-                style="width: 22px"
-                :src="getImg('HarmonyOs')"
+                  v-if="device['isHm'] === 1"
+                  style="width: 22px"
+                  :src="getImg('HarmonyOs')"
               />
             </span>
             <img
-              v-if="device.platform === 2"
-              style="width: 22px"
-              :src="getImg('IOS')"
+                v-if="device.platform === 2"
+                style="width: 22px"
+                :src="getImg('IOS')"
             />
             <span style="margin-left: 6px">{{ device.version }}</span>
           </el-form-item>
-          <el-form-item :label="$t('devices.form.battery.level')">
-            <div
-              :style="{
-                position: 'relative',
-                display: 'flex',
-                'align-items': 'center',
-                color:
-                  device['level'] === 0 ||
-                  (device.status !== 'ONLINE' &&
-                    device.status !== 'DEBUGGING' &&
-                    device.status !== 'TESTING')
-                    ? '#606266'
-                    : device['level'] <= 30
-                    ? '#F56C6C'
-                    : device['level'] <= 70
-                    ? '#E6A23C'
-                    : '#67C23A',
-              }"
-            >
-              <ColorImg
-                v-if="
-                  device['level'] !== 0 &&
-                  (device.status === 'ONLINE' ||
-                    device.status === 'DEBUGGING' ||
-                    device.status === 'TESTING')
-                "
-                style="margin-right: 5px"
-                :src="
-                  device['level'] <= 25
-                    ? img['./../assets/img/powerLow.png'].default
-                    : device['level'] <= 50
-                    ? img['./../assets/img/powerMid.png'].default
-                    : device['level'] <= 75
-                    ? img['./../assets/img/powerHigh.png'].default
-                    : img['./../assets/img/powerFull.png'].default
-                "
-                :width="20"
-                :height="20"
-                :color="
-                  device['level'] === 0
-                    ? '#606266'
-                    : device['level'] <= 30
-                    ? '#F56C6C'
-                    : device['level'] <= 70
-                    ? '#E6A23C'
-                    : '#67C23A'
-                "
-              />
-              {{
-                device['level'] === 0 ||
-                (device.status !== 'ONLINE' &&
-                  device.status !== 'DEBUGGING' &&
-                  device.status !== 'TESTING')
-                  ? $t('form.unknown')
-                  : device['level']
-              }}
-            </div>
+          <el-form-item :label="$t('devices.detail.udId')">
+            <span>{{ device.udId.substring(0, device.udId.indexOf(':')) }}</span>
           </el-form-item>
           <el-form-item :label="$t('devices.form.battery.temperature')">
             <div
-              :style="{
+                :style="{
                 position: 'relative',
                 display: 'flex',
                 'align-items': 'center',
@@ -315,17 +260,17 @@ const findAgentById = (id) => {
               }"
             >
               <ColorImg
-                v-if="
+                  v-if="
                   device['temperature'] !== 0 &&
                   (device.status === 'ONLINE' ||
                     device.status === 'DEBUGGING' ||
                     device.status === 'TESTING')
                 "
-                style="margin-left: -4px; margin-right: 3px"
-                :src="img['./../assets/img/tem.png'].default"
-                :width="20"
-                :height="20"
-                :color="
+                  style="margin-left: -4px; margin-right: 3px"
+                  :src="img['./../assets/img/tem.png'].default"
+                  :width="20"
+                  :height="20"
+                  :color="
                   device['temperature'] === 0
                     ? '#606266'
                     : device['temperature'] < 300
@@ -338,10 +283,10 @@ const findAgentById = (id) => {
               {{
                 device['temperature'] === 0 ||
                 (device.status !== 'ONLINE' &&
-                  device.status !== 'DEBUGGING' &&
-                  device.status !== 'TESTING')
-                  ? $t('form.unknown')
-                  : (device['temperature'] / 10).toFixed(1) + ' ℃'
+                    device.status !== 'DEBUGGING' &&
+                    device.status !== 'TESTING')
+                    ? $t('form.unknown')
+                    : (device['temperature'] / 10).toFixed(1) + ' ℃'
               }}
             </div>
           </el-form-item>
@@ -353,48 +298,48 @@ const findAgentById = (id) => {
     </el-row>
     <div style="text-align: center">
       <el-button
-        type="primary"
-        size="mini"
-        :disabled="device.status !== 'ONLINE'"
-        @click="jump(device.id, device.platform)"
-        >{{ $t('devices.useRightNow') }}
+          type="primary"
+          size="mini"
+          :disabled="device.status !== 'ONLINE'"
+          @click="jump(device.id, device.platform)"
+      >{{ $t('devices.useRightNow') }}
       </el-button>
       <el-popover placement="top" width="340px" trigger="hover">
         <el-form
-          v-if="device.id"
-          label-position="left"
-          class="demo-table-expand"
-          label-width="90px"
-          style="margin-left: 10px; word-break: break-all"
+            v-if="device.id"
+            label-position="left"
+            class="demo-table-expand"
+            label-width="90px"
+            style="margin-left: 10px; word-break: break-all"
         >
           <el-form-item :label="$t('devices.detail.image')">
             <el-upload
-              style="width: 30px"
-              :data="{ id: device.id }"
-              action=""
-              :with-credentials="true"
-              :before-upload="beforeAvatarUpload"
-              :http-request="upload"
-              :show-file-list="false"
+                style="width: 30px"
+                :data="{ id: device.id }"
+                action=""
+                :with-credentials="true"
+                :before-upload="beforeAvatarUpload"
+                :http-request="upload"
+                :show-file-list="false"
             >
               <el-button type="primary" size="mini"
-                >{{ $t('devices.detail.uploadImg') }}
+              >{{ $t('devices.detail.uploadImg') }}
               </el-button>
             </el-upload>
           </el-form-item>
           <el-form-item :label="$t('devices.detail.nickName')">
             <el-input
-              v-model="device['nickName']"
-              show-word-limit
-              type="text"
-              size="mini"
-              :placeholder="$t('devices.detail.nickPlaceholder')"
-              maxlength="30"
-              style="position: absolute; top: 7px; bottom: 7px"
+                v-model="device['nickName']"
+                show-word-limit
+                type="text"
+                size="mini"
+                :placeholder="$t('devices.detail.nickPlaceholder')"
+                maxlength="30"
+                style="position: absolute; top: 7px; bottom: 7px"
             >
               <template #append>
                 <el-button size="mini" @click="saveDetail(device)"
-                  >{{ $t('form.save') }}
+                >{{ $t('form.save') }}
                 </el-button>
               </template>
             </el-input>
@@ -405,8 +350,66 @@ const findAgentById = (id) => {
           <el-form-item :label="$t('devices.detail.model')">
             <span>{{ device.model }}</span>
           </el-form-item>
-          <el-form-item :label="$t('devices.detail.udId')">
-            <span>{{ device.udId }}</span>
+          <!--          <el-form-item :label="$t('devices.detail.udId')">-->
+          <!--            <span>{{ device.udId }}</span>-->
+          <!--          </el-form-item>-->
+          <el-form-item :label="$t('devices.form.battery.level')">
+            <div
+                :style="{
+                          position: 'relative',
+                          display: 'flex',
+                          'align-items': 'center',
+                          color:
+                            device['level'] === 0 ||
+                            (device.status !== 'ONLINE' &&
+                              device.status !== 'DEBUGGING' &&
+                              device.status !== 'TESTING')
+                              ? '#606266'
+                              : device['level'] <= 30
+                              ? '#F56C6C'
+                              : device['level'] <= 70
+                              ? '#E6A23C'
+                              : '#67C23A',
+                        }"
+            >
+              <ColorImg
+                  v-if="
+                            device['level'] !== 0 &&
+                            (device.status === 'ONLINE' ||
+                              device.status === 'DEBUGGING' ||
+                              device.status === 'TESTING')
+                          "
+                  style="margin-right: 5px"
+                  :src="
+                            device['level'] <= 25
+                              ? img['./../assets/img/powerLow.png'].default
+                              : device['level'] <= 50
+                              ? img['./../assets/img/powerMid.png'].default
+                              : device['level'] <= 75
+                              ? img['./../assets/img/powerHigh.png'].default
+                              : img['./../assets/img/powerFull.png'].default
+                          "
+                  :width="20"
+                  :height="20"
+                  :color="
+                            device['level'] === 0
+                              ? '#606266'
+                              : device['level'] <= 30
+                              ? '#F56C6C'
+                              : device['level'] <= 70
+                              ? '#E6A23C'
+                              : '#67C23A'
+                          "
+              />
+              {{
+                device['level'] === 0 ||
+                (device.status !== 'ONLINE' &&
+                    device.status !== 'DEBUGGING' &&
+                    device.status !== 'TESTING')
+                    ? $t('form.unknown')
+                    : device['level']
+              }}
+            </div>
           </el-form-item>
           <el-form-item :label="$t('devices.detail.size')">
             <span>{{ device.size }}</span>
@@ -416,7 +419,7 @@ const findAgentById = (id) => {
           </el-form-item>
           <el-form-item :label="$t('devices.form.battery.voltage')">
             <div
-              :style="{
+                :style="{
                 position: 'relative',
                 display: 'flex',
                 'align-items': 'center',
@@ -430,91 +433,91 @@ const findAgentById = (id) => {
               }"
             >
               <ColorImg
-                v-if="
+                  v-if="
                   device['voltage'] !== 0 &&
                   (device.status === 'ONLINE' ||
                     device.status === 'DEBUGGING' ||
                     device.status === 'TESTING')
                 "
-                style="margin-right: 5px"
-                :src="img['./../assets/img/voltage.png'].default"
-                :width="15"
-                :height="20"
-                :color="device['voltage'] === 0 ? '#606266' : '#67C23A'"
+                  style="margin-right: 5px"
+                  :src="img['./../assets/img/voltage.png'].default"
+                  :width="15"
+                  :height="20"
+                  :color="device['voltage'] === 0 ? '#606266' : '#67C23A'"
               />
               {{
                 device['voltage'] === 0 ||
                 (device.status !== 'ONLINE' &&
-                  device.status !== 'DEBUGGING' &&
-                  device.status !== 'TESTING')
-                  ? $t('form.unknown')
-                  : (device['voltage'] / 1000).toFixed(2) + ' V'
+                    device.status !== 'DEBUGGING' &&
+                    device.status !== 'TESTING')
+                    ? $t('form.unknown')
+                    : (device['voltage'] / 1000).toFixed(2) + ' V'
               }}
             </div>
           </el-form-item>
           <el-form-item
-            v-if="device.platform !== 2"
-            :label="$t('devices.detail.pwd')"
+              v-if="device.platform !== 2"
+              :label="$t('devices.detail.pwd')"
           >
             <el-input
-              v-model="device.password"
-              show-word-limit
-              type="text"
-              size="mini"
-              :placeholder="$t('devices.detail.pwdPlaceholder')"
-              maxlength="30"
-              style="position: absolute; top: 7px; bottom: 7px"
+                v-model="device.password"
+                show-word-limit
+                type="text"
+                size="mini"
+                :placeholder="$t('devices.detail.pwdPlaceholder')"
+                maxlength="30"
+                style="position: absolute; top: 7px; bottom: 7px"
             >
               <template #append>
                 <el-button size="mini" @click="saveDetail(device)"
-                  >{{ $t('form.save') }}
+                >{{ $t('form.save') }}
                 </el-button>
               </template>
             </el-input>
           </el-form-item>
           <el-form-item :label="$t('devices.detail.operation')">
             <el-popconfirm
-              placement="top"
-              :confirm-button-text="$t('form.confirm')"
-              :cancel-button-text="$t('form.cancel')"
-              icon="el-icon-warning"
-              icon-color="red"
-              :title="$t('devices.detail.rebootTips')"
-              @confirm="reboot(device.id)"
+                placement="top"
+                :confirm-button-text="$t('form.confirm')"
+                :cancel-button-text="$t('form.cancel')"
+                icon="el-icon-warning"
+                icon-color="red"
+                :title="$t('devices.detail.rebootTips')"
+                @confirm="reboot(device.id)"
             >
               <template #reference>
                 <el-button
-                  type="danger"
-                  size="mini"
-                  :disabled="
+                    type="danger"
+                    size="mini"
+                    :disabled="
                     device.status !== 'ONLINE' &&
                     device.status !== 'DEBUGGING' &&
                     device.status !== 'TESTING' &&
                     device.status !== 'ERROR'
                   "
-                  >{{ $t('devices.detail.reboot') }}
+                >{{ $t('devices.detail.reboot') }}
                 </el-button>
               </template>
             </el-popconfirm>
             <el-popconfirm
-              placement="top"
-              :confirm-button-text="$t('form.confirm')"
-              :cancel-button-text="$t('form.cancel')"
-              icon="el-icon-warning"
-              icon-color="red"
-              :title="$t('devices.detail.deleteTips')"
-              @confirm="deleteDevice(device.id)"
+                placement="top"
+                :confirm-button-text="$t('form.confirm')"
+                :cancel-button-text="$t('form.cancel')"
+                icon="el-icon-warning"
+                icon-color="red"
+                :title="$t('devices.detail.deleteTips')"
+                @confirm="deleteDevice(device.id)"
             >
               <template #reference>
                 <el-button
-                  type="danger"
-                  size="mini"
-                  :disabled="
+                    type="danger"
+                    size="mini"
+                    :disabled="
                     device.status === 'ONLINE' ||
                     device.status === 'DEBUGGING' ||
                     device.status === 'TESTING'
                   "
-                  >{{ $t('common.delete') }}
+                >{{ $t('common.delete') }}
                 </el-button>
               </template>
             </el-popconfirm>

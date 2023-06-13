@@ -32,17 +32,9 @@ const props = defineProps({
   step: Object,
 });
 
-const emit = defineEmits([
-  'inputChange',
-]);
-
 const childStep = ref([]);
 const inputStyle = () => {
   return 'width: 12vw;'
-}
-const inputChange = (data) => {
-  console.log('data-item', data)
-  emit('inputChange', props.step);
 }
 const summitStep = () => {
   axios.put('/controller/steps', props.step).then((resp) => {
@@ -406,8 +398,7 @@ const getNotes = (text, type) => {
         :style="inputStyle()"
         size="mini"
         v-model="step.content"
-        placeholder="请输入文本"
-        @change="inputChange"></el-input>
+        placeholder="请输入文本"></el-input>
 <!--    {{ step.content }}-->
   </span>
   <span v-if="step.stepType === 'setClipperByKeyboard'">
@@ -416,8 +407,7 @@ const getNotes = (text, type) => {
         :style="inputStyle()"
         size="mini"
         v-model="step.content"
-        placeholder="请输入文本"
-        @change="inputChange"></el-input>
+        placeholder="请输入文本"></el-input>
 <!--    {{ step.content }}-->
   </span>
   <span v-if="step.stepType === 'sendKeyForce'">
@@ -433,8 +423,7 @@ const getNotes = (text, type) => {
           :style="inputStyle()"
           size="mini"
           v-model="step.content"
-          placeholder="请输入文本"
-          @change="inputChange"></el-input>
+          placeholder="请输入文本"></el-input>
       <!--    {{ step.content }}-->
   </span>
   <span v-if="step.stepType === 'swipe2' || step.stepType === 'pocoSwipe'">

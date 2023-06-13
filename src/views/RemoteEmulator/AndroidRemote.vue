@@ -589,6 +589,7 @@ const stopCmd = () => {
   );
 };
 const terminalWebsocketOnmessage = (message) => {
+  console.log('terminalWebsocketOnmessage', message.data);
   switch (JSON.parse(message.data).msg) {
     case 'wifiListDetail': {
       isConnectWifi.value = JSON.parse(message.data).detail.isConnectWifi;
@@ -640,7 +641,7 @@ const terminalWebsocketOnmessage = (message) => {
   }
 };
 const screenWebsocketOnmessage = (message) => {
-  // console.log('screenWebsocketOnmessage', message.data);
+  console.log('screenWebsocketOnmessage', message.data);
   if (typeof message.data === 'object') {
     oldBlob = message.data;
     const blob = new Blob([message.data], {type: 'image/jpeg'});
@@ -707,6 +708,7 @@ const screenWebsocketOnmessage = (message) => {
   }
 };
 const websocketOnmessage = (message) => {
+  console.log('websocketOnmessage', message.data);
   switch (JSON.parse(message.data).msg) {
     case 'perfDetail':
       androidPerfRef.value.setData(JSON.parse(message.data).detail);

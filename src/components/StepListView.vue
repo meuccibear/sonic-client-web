@@ -6,16 +6,19 @@ import axios from '../http/axios';
 import StepDraggable from './StepDraggableView.vue';
 
 const { t: $t } = useI18n();
-const steps = ref([]);
+
 const props = defineProps({
   caseId: Number,
+  steps: [],
   projectId: Number,
   platform: Number,
   isShowRun: Boolean,
   isDriverFinish: Boolean,
   debugLoading: Boolean,
 });
-const emit = defineEmits(['runStep', ]);
+console.log('steps:', props.steps)
+console.log('projectId:', props.projectId)
+const emit = defineEmits(['runStep', 'getStepsList']);
 const dialogVisible = ref(false);
 const stepId = ref(0);
 const parentId = ref(0);
@@ -102,22 +105,23 @@ const deleteReal = (id) => {
     });
 };
 const getStepsList = () => {
-  axios
-    .get('/controller/steps/listAll', {
-      params: {
-        caseId: props.caseId,
-      },
-    })
-    .then((resp) => {
-      steps.value = resp.data;
-      updateSteps(steps)
-    });
+  // axios
+  //   .get('/controller/steps/listAll', {
+  //     params: {
+  //       caseId: props.caseId,
+  //     },
+  //   })
+  //   .then((resp) => {
+  //     steps.value = resp.data;
+  //     updateSteps(steps)
+  //   });
+  emit('runStep', props.caseId);
 };
 const runStep = () => {
   emit('runStep');
 };
 const updateSteps = (data) => {
-  console.log('steps-list', data)
+  console.log('StepListView', data)
   emit('updateSteps', steps);
 };
 const copyStep = (id) => {
@@ -137,7 +141,7 @@ const copyStep = (id) => {
     });
 };
 onMounted(() => {
-  getStepsList();
+  // getStepsList();
 });
 </script>
 

@@ -45,8 +45,7 @@ const emit = defineEmits([
   'setParent',
   'addStep',
   'remove',
-  'copyStep',
-  'updateSteps',
+  'copyStep'
 ]);
 const switchStep = (id, e) => {
   axios
@@ -96,9 +95,6 @@ const sortStep = (e) => {
       }
     });
 };
-const updateSteps = (data) => {
-  emit('updateSteps', data)
-}
 const setParent = (id) => {
   emit('setParent', id);
 };
@@ -238,7 +234,6 @@ const copyStep = (id) => {
         <div v-else style="display: flex; justify-content: space-between">
           <step-show
               :step="s"
-              @inputChange="updateSteps"
                      ></step-show>
           <div style="float: right; flex: 0 0 205px; text-align: right">
             <el-switch

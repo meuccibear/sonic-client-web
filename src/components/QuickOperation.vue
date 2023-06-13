@@ -23,7 +23,8 @@ const loading = ref(false);
 const project = ref({
   id: route.params.projectId,
   groupId: null,
-  caseId: null
+  caseId: null,
+  steps: []
 });
 
 const formData = ref({
@@ -67,10 +68,6 @@ const getTestSuitesList = () => {
 };
 
 const projectUpdateForm = ref(null);
-const emit = defineEmits(['flush']);
-const updateSteps = (steps) => {
-  project.value.steps = steps
-}
 const summit = () => {
   projectUpdateForm.value.validate((valid) => {
     if (valid) {
@@ -103,6 +100,18 @@ const getImg = (name) => {
   }
   return result;
 };
+const getStepsList = (caseId) => {
+  axios
+      .get('/controller/steps/listAll', {
+        params: {
+          caseId: caseId,
+        },
+      })
+      .then((resp) => {
+        project.value.steps = resp.data
+        console.log(project.value.steps)
+      });
+};
 const getCaseInfo = () => {
   axios
       .get('/controller/testCases', {
@@ -113,12 +122,13 @@ const getCaseInfo = () => {
       .then((resp) => {
         if (resp.code === 2000) {
           testCase.value = resp.data;
+          getStepsList(testCase.value.id)
         }
       });
 };
 onMounted(() => {
   if (props.isUpdate) {
-    console.log(store.state.project)
+    // console.log(store.state.project)
     // project.value = JSON.parse(JSON.stringify(store.state.project));
     getTestSuitesList()
   }
@@ -229,8 +239,9 @@ onMounted(() => {
             :platform="testCase['platform']"
             :is-driver-finish="false"
             :case-id="testCase['id']"
+            :steps="project.steps"
             :project-id="project.id"
-            @updateSteps="updateSteps"
+            @getStepsList="getStepsList"
         />
       </el-card>
     </el-col>
