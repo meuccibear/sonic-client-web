@@ -11,11 +11,11 @@ const props = defineProps({
 
 const updateFormModel = ref(false);
 watch(
-  () => props.dataToEdit,
-  (val) => {
-    if (val) updateFormModel.value = { ...val };
-    else updateFormModel.value = false;
-  }
+    () => props.dataToEdit,
+    (val) => {
+      if (val) updateFormModel.value = { ...val };
+      else updateFormModel.value = false;
+    }
 );
 const emit = defineEmits(['save', 'abort']);
 const { t: $t } = useI18n();
@@ -42,18 +42,18 @@ const submit = () => {
 const queryDefault = (type, scene) => {
   if (!scene || !type) return;
   axios
-    .get('/controller/alertRobots/findDefaultTemplate', {
-      params: {
-        type,
-        scene,
-      },
-    })
-    .then((resp) => {
-      updateFormModel.value.template = resp.data ? resp.data : ' ';
-    })
-    .catch(() => {
-      updateFormModel.value.template = ' ';
-    });
+      .get('/controller/alertRobots/findDefaultTemplate', {
+        params: {
+          type,
+          scene,
+        },
+      })
+      .then((resp) => {
+        updateFormModel.value.template = resp.data ? resp.data : ' ';
+      })
+      .catch(() => {
+        updateFormModel.value.template = ' ';
+      });
 };
 </script>
 
@@ -66,7 +66,7 @@ const robotList = [
   { name: 'Telegram Bot', value: 5, img: 'Telegram' },
   { name: 'LINE Notify', value: 6, img: 'LineNotify' },
   { name: 'Slack Bot', value: 7, img: 'SlackBot' },
-  { name: 'Webhook', value: 8, img: '' },
+  { name: '自定义机器人', value: 8, img: '' },
 ];
 const sceneList = [
   { name: 'robot.sceneList.testsuite', value: 'testsuite' },
@@ -91,38 +91,38 @@ export default {
 
 <template>
   <el-dialog
-    :model-value="updateFormModel"
-    :append-to-body="true"
-    :title="$t('robot.ui.addOrEdit')"
-    width="600px"
-    @close="emit('abort')"
+      :model-value="updateFormModel"
+      :append-to-body="true"
+      :title="$t('robot.ui.addOrEdit')"
+      width="600px"
+      @close="emit('abort')"
   >
     <el-form
-      ref="updateForm"
-      :model="updateFormModel"
-      size="small"
-      class="demo-table-expand"
-      label-width="90px"
-      label-position="left"
+        ref="updateForm"
+        :model="updateFormModel"
+        size="small"
+        class="demo-table-expand"
+        label-width="90px"
+        label-position="left"
     >
       <el-form-item
-        prop="name"
-        :label="$t('robot.name')"
-        :rules="{
+          prop="name"
+          :label="$t('robot.name')"
+          :rules="{
           required: true,
           message: $t('robot.validate.nameNoNull'),
           trigger: 'blur',
         }"
       >
         <el-input
-          v-model="updateFormModel.name"
-          :placeholder="$t('robot.robotNamePlaceholder')"
+            v-model="updateFormModel.name"
+            :placeholder="$t('robot.robotNamePlaceholder')"
         ></el-input>
       </el-form-item>
       <el-form-item
-        prop="scene"
-        :label="$t('robot.scene')"
-        :rules="{
+          prop="scene"
+          :label="$t('robot.scene')"
+          :rules="{
           required: true,
           message: $t('robot.validate.sceneNoNull'),
           trigger: 'blur',
@@ -130,58 +130,58 @@ export default {
       >
         <el-select v-model="updateFormModel.scene" style="width: 100%">
           <el-option
-            v-for="item in sceneList"
-            :key="item.value"
-            :value="item.value"
-            :label="$t(item.name)"
+              v-for="item in sceneList"
+              :key="item.value"
+              :value="item.value"
+              :label="$t(item.name)"
           />
         </el-select>
       </el-form-item>
       <el-form-item
-        v-if="isAdmin"
-        prop="projectId"
-        :label="$t('robot.projectId')"
+          v-if="isAdmin"
+          prop="projectId"
+          :label="$t('robot.projectId')"
       >
         <el-select
-          v-model="updateFormModel.projectId"
-          :clearable="true"
-          :placeholder="$t('robot.projectIdPlaceholder')"
-          style="width: 100%"
+            v-model="updateFormModel.projectId"
+            :clearable="true"
+            :placeholder="$t('robot.projectIdPlaceholder')"
+            style="width: 100%"
         >
           <el-option
-            v-for="val in projectMap"
-            :key="val.id"
-            :value="val.id"
-            :label="val.projectName"
+              v-for="val in projectMap"
+              :key="val.id"
+              :value="val.id"
+              :label="val.projectName"
           />
         </el-select>
       </el-form-item>
       <el-form-item
-        :label="$t('robot.robotType')"
-        :rules="{
+          :label="$t('robot.robotType')"
+          :rules="{
           required: true,
           message: $t('robot.validate.robotTypeNoNull'),
           trigger: 'blur',
         }"
       >
         <el-select
-          v-model="updateFormModel.robotType"
-          style="width: 100%"
-          :placeholder="$t('robot.robotTypePlaceholder')"
+            v-model="updateFormModel.robotType"
+            style="width: 100%"
+            :placeholder="$t('robot.robotTypePlaceholder')"
         >
           <el-option
-            v-for="item in robotList"
-            :key="item.name"
-            :value="item.value"
-            :label="item.name"
-            :disabled="item['disabled']"
+              v-for="item in robotList"
+              :key="item.name"
+              :value="item.value"
+              :label="item.name"
+              :disabled="item['disabled']"
           >
             <div style="display: flex; align-items: center">
               <el-avatar
-                style="margin-right: 10px"
-                :size="30"
-                :src="getImg(item.img)"
-                shape="square"
+                  style="margin-right: 10px"
+                  :size="30"
+                  :src="getImg(item.img)"
+                  shape="square"
               ></el-avatar>
               {{ item.name }}
             </div>
@@ -189,41 +189,41 @@ export default {
         </el-select>
       </el-form-item>
       <el-form-item
-        :label="$t('robot.robotToken')"
-        prop="robotToken"
-        :rules="{
+          :label="$t('robot.robotToken')"
+          prop="robotToken"
+          :rules="{
           required: true,
           message: $t('robot.validate.robotTokenNoNull'),
           trigger: 'blur',
         }"
       >
         <el-input
-          v-model="updateFormModel.robotToken"
-          :placeholder="$t('robot.robotTokenPlaceholder')"
+            v-model="updateFormModel.robotToken"
+            :placeholder="$t('robot.robotTokenPlaceholder')"
         ></el-input>
       </el-form-item>
       <el-form-item :label="$t('robot.robotSecret')" prop="robotSecret">
         <el-input
-          v-model="updateFormModel.robotSecret"
-          :placeholder="$t('robot.robotSecretPlaceholder')"
-          type="password"
+            v-model="updateFormModel.robotSecret"
+            :placeholder="$t('robot.robotSecretPlaceholder')"
+            type="password"
         ></el-input>
       </el-form-item>
       <el-form-item :label="$t('robot.muteRule')" prop="muteRule">
         <el-input
-          v-if="!!updateFormModel.muteRule"
-          v-model="updateFormModel.muteRule"
-          :placeholder="$t('robot.robotSecretPlaceholder')"
+            v-if="!!updateFormModel.muteRule"
+            v-model="updateFormModel.muteRule"
+            :placeholder="$t('robot.robotSecretPlaceholder')"
         ></el-input>
         <el-tag v-else type="info" size="small" style="margin-right: 10px">{{
-          $t('robot.consts.nomute')
-        }}</el-tag>
+            $t('robot.consts.nomute')
+          }}</el-tag>
         <el-dropdown
-          size="small"
-          split-button
-          trigger="click"
-          @command="(cmd) => (updateFormModel.muteRule = cmd)"
-          >{{ $t('robot.ui.commonMuteRules')
+            size="small"
+            split-button
+            trigger="click"
+            @command="(cmd) => (updateFormModel.muteRule = cmd)"
+        >{{ $t('robot.ui.commonMuteRules')
           }}<template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="">
@@ -233,29 +233,29 @@ export default {
                 {{ $t('robot.consts.mute') }}</el-dropdown-item
               >
               <el-dropdown-item
-                command="#{now.DAY_OF_WEEK == 7 || now.DAY_OF_WEEK == 1}"
-                >{{ $t('robot.consts.muteWeekend') }}</el-dropdown-item
+                  command="#{now.DAY_OF_WEEK == 7 || now.DAY_OF_WEEK == 1}"
+              >{{ $t('robot.consts.muteWeekend') }}</el-dropdown-item
               >
               <el-dropdown-item
-                command="#{now.HOUR_OF_DAY < 8 || now.HOUR_OF_DAY > 17}"
-                >{{ $t('robot.consts.muteNonworktime') }}</el-dropdown-item
+                  command="#{now.HOUR_OF_DAY < 8 || now.HOUR_OF_DAY > 17}"
+              >{{ $t('robot.consts.muteNonworktime') }}</el-dropdown-item
               >
               <template
-                v-if="
+                  v-if="
                   updateFormModel.scene == 'testsuite' ||
                   updateFormModel.scene == 'summary'
                 "
               >
                 <el-dropdown-item command="#{warn == 0 && fail == 0}">{{
-                  $t('robot.consts.muteNoerr')
-                }}</el-dropdown-item>
+                    $t('robot.consts.muteNoerr')
+                  }}</el-dropdown-item>
                 <el-dropdown-item
-                  command="#{(now.DAY_OF_WEEK == 7 || now.DAY_OF_WEEK == 1) && warn == 0 && fail == 0}"
-                  >{{ $t('robot.consts.muteWeekendNoerr') }}</el-dropdown-item
+                    command="#{(now.DAY_OF_WEEK == 7 || now.DAY_OF_WEEK == 1) && warn == 0 && fail == 0}"
+                >{{ $t('robot.consts.muteWeekendNoerr') }}</el-dropdown-item
                 >
                 <el-dropdown-item
-                  command="#{(now.HOUR_OF_DAY < 8 || now.HOUR_OF_DAY > 17) && warn == 0 && fail == 0}"
-                  >{{
+                    command="#{(now.HOUR_OF_DAY < 8 || now.HOUR_OF_DAY > 17) && warn == 0 && fail == 0}"
+                >{{
                     $t('robot.consts.muteNonworktimeNoerr')
                   }}</el-dropdown-item
                 >
@@ -266,34 +266,34 @@ export default {
       </el-form-item>
       <el-form-item :label="$t('robot.template')" prop="template">
         <el-input
-          v-if="!!updateFormModel.template"
-          v-model="updateFormModel.template"
-          type="textarea"
-          rows="8"
+            v-if="!!updateFormModel.template"
+            v-model="updateFormModel.template"
+            type="textarea"
+            rows="8"
         ></el-input>
         <el-tag v-else type="info" size="small" style="margin-right: 10px">{{
-          $t('robot.consts.defaultTemplate')
-        }}</el-tag>
+            $t('robot.consts.defaultTemplate')
+          }}</el-tag>
         <el-button
-          v-if="!!updateFormModel.template"
-          size="mini"
-          @click="updateFormModel.template = ''"
-          >{{ $t('robot.ui.defaultTemplate') }}</el-button
+            v-if="!!updateFormModel.template"
+            size="mini"
+            @click="updateFormModel.template = ''"
+        >{{ $t('robot.ui.defaultTemplate') }}</el-button
         >
         <el-button
-          v-else
-          size="mini"
-          @click="
+            v-else
+            size="mini"
+            @click="
             queryDefault(updateFormModel.robotType, updateFormModel.scene)
           "
-          >{{ $t('robot.ui.custom') }}</el-button
+        >{{ $t('robot.ui.custom') }}</el-button
         >
       </el-form-item>
     </el-form>
     <div style="text-align: center">
       <el-button size="small" type="primary" @click="submit">{{
-        $t('modulesTS.sure')
-      }}</el-button>
+          $t('modulesTS.sure')
+        }}</el-button>
     </div>
   </el-dialog>
 </template>
