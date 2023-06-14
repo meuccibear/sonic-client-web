@@ -282,7 +282,7 @@ const devices = {
   status: {
     ONLINE: '空闲中',
     DEBUGGING: '占用中',
-    TESTING: '中',
+    TESTING: '测试中',
     DISCONNECTED: '已断开',
     OFFLINE: '已离线',
     UNAUTHORIZED: '未授权',
