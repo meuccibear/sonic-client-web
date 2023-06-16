@@ -548,7 +548,7 @@ onUnmounted(() => {
           <el-tab-pane v-for="d in deviceList" :name="d.id + ''" lazy>
             <template #label>
               <div class="flex-center">
-                {{ d.model }}
+                {{ d.udId.substring(0, d.udId.indexOf(':')) }}
                 <el-tag
                   style="margin-left: 10px"
                   size="small"

@@ -126,12 +126,13 @@ let time = 0;
 let isLongPress = false;
 let mouseMoveTime = 0;
 let touchWrapper = null;
-const pic = ref('高');
+const pic = ref('中');
 const _screenMode = window.localStorage.getItem('screenMode');
 const screenMode = ref(_screenMode || 'Scrcpy'); // Scrcpy,Minicap
 const elementLoading = ref(false);
 const isShowImg = ref(false);
 const isDriverFinish = ref(false);
+const isTerminalFinish = ref(false);
 const imgUrl = ref('');
 const activity = ref('');
 const webViewData = ref([]);
@@ -170,6 +171,8 @@ const logcatFilter = ref({
   level: 'E',
   filter: '',
 });
+const webSockerDatas = ref([])
+const terminalWebsocketDatas = ref([])
 let oldBlob;
 const element = ref({
   id: null,
@@ -207,19 +210,15 @@ const switchTabs = (e) => {
   }
 };
 const startPerfmon = (bundleId) => {
-  websocket.send(
-      JSON.stringify({
-        type: 'startPerfmon',
-        bundleId,
-      })
-  );
+  websocketSend({
+    type: 'startPerfmon',
+    bundleId,
+  });
 };
 const stopPerfmon = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'stopPerfmon',
-      })
-  );
+  websocketSend({
+    type: 'stopPerfmon',
+  });
 };
 const img = import.meta.globEager('../../assets/img/*');
 let websocket = null;
@@ -469,9 +468,9 @@ const quickCap = () => {
   } else {
     imageUrl = getVideoScreenshot();
   }
-  const img = new Image();
+  // const img = new Image();
   screenUrls.value.push(imageUrl);
-  img.src = imageUrl;
+  // img.src = imageUrl;
 };
 const getImgUrl = () => {
   let imageUrl;
@@ -498,13 +497,6 @@ const setImgData = () => {
 };
 const openSocket = (host, port, key, udId) => {
   if ('WebSocket' in window) {
-    //
-    websocket = new WebSocket(
-        `ws://${host}:${port}/websockets/android/${key}/${udId}/${localStorage.getItem(
-            'SonicToken'
-        )}`
-    );
-    //
     __Scrcpy = new Scrcpy({
       socketURL: `ws://${host}:${port}/websockets/android/screen/${key}/${udId}/${localStorage.getItem(
           'SonicToken'
@@ -515,48 +507,94 @@ const openSocket = (host, port, key, udId) => {
     });
     screenWebsocket = __Scrcpy.websocket;
     changeScreenMode(screenMode.value, 1);
-    //
-    terminalWebsocket = new WebSocket(
-        `ws://${host}:${port}/websockets/android/terminal/${key}/${udId}/${localStorage.getItem(
-            'SonicToken'
-        )}`
-    );
   } else {
     console.error($t('androidRemoteTS.noWebSocket'));
   }
-  websocket.onmessage = websocketOnmessage;
-  websocket.onclose = (e) => {
-  };
-  terminalWebsocket.onmessage = terminalWebsocketOnmessage;
-  terminalWebsocket.onclose = (e) => {
-  };
   driverLoading.value = true;
 };
+const sleep = (ms) => {
+  //sleep延迟方法2
+  const unixtime_ms = new Date().getTime();
+  while (new Date().getTime() < unixtime_ms + ms) {
+  }
+}
+const initWebsocket = (url, onmessage, onclose) => {
+  let websocketTmp = null;
+  if ('WebSocket' in window) {
+    websocketTmp = new WebSocket(url);
+  } else {
+    console.error($t('androidRemoteTS.noWebSocket'));
+  }
+  websocketTmp.onmessage = onmessage ? onmessage : (e) => {
+  };
+  ;
+  websocketTmp.onclose = onclose ? onclose : (e) => {
+  };
+  return websocketTmp
+}
+const websocketSend = (data) => {
+  if (!isDriverFinish.value) {
+    if (websocket == null) {
+      // rotation
+
+      let host = agent.value['host'];
+      let port = agent.value['port'];
+      let key = agent.value['secretKey']
+      let udId = device.value['udId']
+      websocket = initWebsocket(`ws://${host}:${port}/websockets/android/${key}/${udId}/${localStorage.getItem(
+          'SonicToken'
+      )}`, websocketOnmessage)
+    }
+    webSockerDatas.value.push(data)
+  } else {
+    if (data !== null) {
+      websocket.send(JSON.stringify(data));
+    }
+  }
+}
+const terminalWebsocketSend = (data) => {
+  if (!isTerminalFinish.value) {
+    if (isDriverFinish.value) {
+      if (terminalWebsocket == null) {
+        let host = agent.value['host'];
+        let port = agent.value['port'];
+        let key = agent.value['secretKey']
+        let udId = device.value['udId']
+        terminalWebsocket = initWebsocket(
+            `ws://${host}:${port}/websockets/android/terminal/${key}/${udId}/${localStorage.getItem(
+                'SonicToken'
+            )}`, terminalWebsocketOnmessage)
+      }
+    } else {
+      websocketSend(null)
+    }
+
+    terminalWebsocketDatas.value.push(data)
+  } else {
+    if (data !== null) {
+      terminalWebsocket.send(JSON.stringify(data));
+    }
+  }
+}
 const sendLogcat = () => {
-  terminalWebsocket.send(
-      JSON.stringify({
-        type: 'logcat',
-        level: logcatFilter.value.level,
-        filter: logcatFilter.value.filter,
-      })
-  );
+  terminalWebsocketSend({
+    type: 'logcat',
+    level: logcatFilter.value.level,
+    filter: logcatFilter.value.filter,
+  })
 };
 const getWifiList = () => {
-  terminalWebsocket.send(
-      JSON.stringify({
-        type: 'wifiList',
-      })
-  );
+  terminalWebsocketSend({
+    type: 'wifiList',
+  })
 };
 const clearLogcat = () => {
   logcatOutPut.value = [];
 };
 const stopLogcat = () => {
-  terminalWebsocket.send(
-      JSON.stringify({
-        type: 'stopLogcat',
-      })
-  );
+  terminalWebsocketSend({
+    type: 'stopLogcat',
+  });
 };
 const sendCmd = () => {
   if (cmdInput.value.length > 0 && cmdIsDone.value === true) {
@@ -568,12 +606,10 @@ const sendCmd = () => {
             )
         )
     );
-    terminalWebsocket.send(
-        JSON.stringify({
-          type: 'command',
-          detail: cmdInput.value,
-        })
-    );
+    terminalWebsocketSend({
+      type: 'command',
+      detail: cmdInput.value,
+    });
     cmdInput.value = '';
   }
 };
@@ -582,14 +618,11 @@ const clearCmd = () => {
 };
 const stopCmd = () => {
   cmdIsDone.value = true;
-  terminalWebsocket.send(
-      JSON.stringify({
-        type: 'stopCmd',
-      })
-  );
+  terminalWebsocketSend({
+    type: 'stopCmd',
+  });
 };
 const terminalWebsocketOnmessage = (message) => {
-  console.log('terminalWebsocketOnmessage', message.data);
   switch (JSON.parse(message.data).msg) {
     case 'wifiListDetail': {
       isConnectWifi.value = JSON.parse(message.data).detail.isConnectWifi;
@@ -602,6 +635,12 @@ const terminalWebsocketOnmessage = (message) => {
     }
     case 'logcat':
       logcatOutPut.value.push($t('androidRemoteTS.connection'));
+      isTerminalFinish.value = true
+      terminalWebsocketDatas.value.forEach(function (data, index) {
+        terminalWebsocketSend(data)
+        sleep(100)
+      })
+      terminalWebsocketDatas.value = []
       break;
     case 'logcatResp':
       logcatOutPut.value.push(
@@ -632,7 +671,7 @@ const terminalWebsocketOnmessage = (message) => {
       cmdIsDone.value = true;
       break;
     case 'error':
-      console.log(message.data)
+      console.log('error', message.data)
       // ElMessage.error({
       //   message: $t('androidRemoteTS.systemException'),
       // });
@@ -641,7 +680,6 @@ const terminalWebsocketOnmessage = (message) => {
   }
 };
 const screenWebsocketOnmessage = (message) => {
-  console.log('screenWebsocketOnmessage', message.data);
   if (typeof message.data === 'object') {
     oldBlob = message.data;
     const blob = new Blob([message.data], {type: 'image/jpeg'});
@@ -670,10 +708,11 @@ const screenWebsocketOnmessage = (message) => {
         }
         directionStatus.value = JSON.parse(message.data).value; // TODO
         // 旋转需要重置一下jmuxer
-        if (screenMode.value == 'Scrcpy') {
-          // 重置播放器
-          __Scrcpy.jmuxer && __Scrcpy.jmuxer.reset();
-        }
+        // if (screenMode.value == 'Scrcpy') {
+        //   // 重置播放器
+        //   __Scrcpy.jmuxer && __Scrcpy.jmuxer.reset();
+        // }
+
         break;
       }
       case 'support': {
@@ -691,6 +730,11 @@ const screenWebsocketOnmessage = (message) => {
             JSON.parse(message.data).width,
             JSON.parse(message.data).height
         );
+        screenWebsocket.send(
+            JSON.stringify({
+              type: 'rotation'
+            })
+        );
         break;
       }
       case 'picFinish': {
@@ -698,7 +742,7 @@ const screenWebsocketOnmessage = (message) => {
         break;
       }
       case 'error':
-        console.log(message.data)
+        console.log('error', message.data)
         // ElMessage.error({
         //   message: $t('androidRemoteTS.systemException'),
         // });
@@ -708,7 +752,6 @@ const screenWebsocketOnmessage = (message) => {
   }
 };
 const websocketOnmessage = (message) => {
-  console.log('websocketOnmessage', message.data);
   switch (JSON.parse(message.data).msg) {
     case 'perfDetail':
       androidPerfRef.value.setData(JSON.parse(message.data).detail);
@@ -837,6 +880,14 @@ const websocketOnmessage = (message) => {
         type: JSON.parse(message.data).status,
         message: msg,
       });
+      webSockerDatas.value.forEach(function (data, index) {
+        websocketSend(data)
+        sleep(100)
+      })
+      webSockerDatas.value = []
+      if (terminalWebsocketDatas.value.length > 0) {
+        terminalWebsocketSend(null)
+      }
       break;
     }
     case 'step': {
@@ -872,7 +923,7 @@ const websocketOnmessage = (message) => {
       break;
     }
     case 'error': {
-      console.log(message.data)
+      console.log('error', message.data)
       // ElMessage.error({
       //   message: $t('androidRemoteTS.systemException'),
       // });
@@ -888,66 +939,52 @@ const inputBoxStyle = ref({});
 const paste = ref('');
 const changeInputHandle = () => {
   if (inputValue.value) {
-    websocket.send(
-        JSON.stringify({
-          type: 'text',
-          detail: inputValue.value,
-        })
-    );
+    websocketSend({
+      type: 'text',
+      detail: inputValue.value,
+    });
     inputValue.value = '';
   }
 };
 const deleteInputHandle = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'text',
-        detail: 'CODE_AC_BACK',
-      })
-  );
+  websocketSend({
+    type: 'text',
+    detail: 'CODE_AC_BACK',
+  });
 };
 const setPasteboard = (text) => {
-  websocket.send(
-      JSON.stringify({
-        type: 'setPasteboard',
-        detail: text,
-      })
-  );
+  websocketSend({
+    type: 'setPasteboard',
+    detail: text,
+  });
   ElMessage.success({
     message: $t('IOSRemote.clipboard.SentSuccessfully'),
   });
 };
 const getPasteboard = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'getPasteboard',
-      })
-  );
+  websocketSend({
+    type: 'getPasteboard',
+  });
 };
 const enterInputHandle = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'text',
-        detail: 'CODE_AC_ENTER',
-      })
-  );
+  websocketSend({
+    type: 'text',
+    detail: 'CODE_AC_ENTER',
+  });
 };
 const openDriver = () => {
   driverLoading.value = true;
-  websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'openDriver',
-      })
-  );
+  websocketSend({
+    type: 'debug',
+    detail: 'openDriver',
+  });
 };
 const closeDriver = () => {
   isDriverFinish.value = false;
-  websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'closeDriver',
-      })
-  );
+  websocketSend({
+    type: 'debug',
+    detail: 'closeDriver',
+  });
   ElMessage.success({
     message: $t('androidRemoteTS.code.closeDriverMessage'),
   });
@@ -1031,12 +1068,10 @@ const mouseup = (event) => {
   if (!isFixTouch) {
     if (isPress) {
       isPress = false;
-      websocket.send(
-          JSON.stringify({
-            type: 'touch',
-            detail: 'up\n',
-          })
-      );
+      websocketSend({
+        type: 'touch',
+        detail: 'up\n',
+      });
       inputBox.value.focus();
     }
   } else {
@@ -1045,24 +1080,20 @@ const mouseup = (event) => {
     const {x, y} = getCurLocationForAdb();
     if (moveX === x && moveY === y) {
       if (!isLongPress) {
-        websocket.send(
-            JSON.stringify({
-              type: 'debug',
-              detail: 'tap',
-              point: `${x},${y}`,
-            })
-        );
+        websocketSend({
+          type: 'debug',
+          detail: 'tap',
+          point: `${x},${y}`,
+        });
         inputBox.value.focus();
       }
     } else {
-      websocket.send(
-          JSON.stringify({
-            type: 'debug',
-            detail: 'swipe',
-            pointA: `${moveX},${moveY}`,
-            pointB: `${x},${y}`,
-          })
-      );
+      websocketSend({
+        type: 'debug',
+        detail: 'swipe',
+        pointA: `${moveX},${moveY}`,
+        pointB: `${x},${y}`,
+      });
       inputBox.value.focus();
     }
     isLongPress = false;
@@ -1074,12 +1105,10 @@ const mouseleave = () => {
     isLongPress = false;
   } else if (isPress) {
     isPress = false;
-    websocket.send(
-        JSON.stringify({
-          type: 'touch',
-          detail: 'up\n',
-        })
-    );
+    websocketSend({
+      type: 'touch',
+      detail: 'up\n',
+    });
   }
 };
 const mousedown = (event) => {
@@ -1087,12 +1116,10 @@ const mousedown = (event) => {
     // 安卓高版本
     const {x, y} = getCurLocation();
     isPress = true;
-    websocket.send(
-        JSON.stringify({
-          type: 'touch',
-          detail: `down ${x} ${y}\n`,
-        })
-    );
+    websocketSend({
+      type: 'touch',
+      detail: `down ${x} ${y}\n`,
+    });
   } else {
     const {x, y} = getCurLocationForAdb();
     moveX = x;
@@ -1101,13 +1128,11 @@ const mousedown = (event) => {
     loop = setInterval(() => {
       time += 500;
       if (time >= 1000 && isLongPress === false) {
-        websocket.send(
-            JSON.stringify({
-              type: 'debug',
-              detail: 'longPress',
-              point: `${moveX},${moveY}`,
-            })
-        );
+        websocketSend({
+          type: 'debug',
+          detail: 'longPress',
+          point: `${moveX},${moveY}`,
+        });
         isLongPress = true;
       }
     }, 500);
@@ -1120,12 +1145,10 @@ const mousemove = (event) => {
         mouseMoveTime++;
       } else {
         const {x, y} = getCurLocation();
-        websocket.send(
-            JSON.stringify({
-              type: 'touch',
-              detail: `move ${x} ${y}\n`,
-            })
-        );
+        websocketSend({
+          type: 'touch',
+          detail: `move ${x} ${y}\n`,
+        });
         mouseMoveTime = 0;
       }
     }
@@ -1248,43 +1271,33 @@ const print = (data) => {
   }
 };
 const searchDevice = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'find',
-      })
-  );
+  websocketSend({
+    type: 'find',
+  });
 };
 const startProxy = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'proxy',
-      })
-  );
+  websocketSend({
+    type: 'proxy',
+  });
 };
 const installCert = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'installCert',
-      })
-  );
+  websocketSend({
+    type: 'installCert',
+  });
 };
 const openApp = (pkg) => {
-  websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'openApp',
-        pkg,
-      })
-  );
+  websocketSend({
+    type: 'debug',
+    detail: 'openApp',
+    pkg,
+  });
 };
 const killApp = (pkg) => {
-  websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'killApp',
-        pkg,
-      })
-  );
+  websocketSend({
+    type: 'debug',
+    detail: 'killApp',
+    pkg,
+  });
   ElMessage.success({
     message: $t('androidRemoteTS.code.killMsg'),
   });
@@ -1294,42 +1307,34 @@ const refreshAppList = () => {
   ElMessage.success({
     message: $t('androidRemoteTS.loadIng'),
   });
-  terminalWebsocket.send(
-      JSON.stringify({
-        type: 'appList',
-      })
-  );
+  terminalWebsocketSend({
+    type: 'appList',
+  });
 };
 const clearProxy = () => {
   ElMessage.success({
     message: $t('androidRemoteTS.messageTwo'),
   });
-  websocket.send(
-      JSON.stringify({
-        type: 'clearProxy',
-      })
-  );
+  websocketSend({
+    type: 'clearProxy',
+  });
 };
 const uninstallApp = (pkg) => {
   ElMessage.success({
     message: $t('androidRemoteTS.startUninstall'),
   });
-  websocket.send(
-      JSON.stringify({
-        type: 'uninstallApp',
-        detail: pkg,
-      })
-  );
+  websocketSend({
+    type: 'uninstallApp',
+    detail: pkg,
+  });
 };
 const getEleScreen = (xpath) => {
   elementScreenLoading.value = true;
-  websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'eleScreen',
-        xpath,
-      })
-  );
+  websocketSend({
+    type: 'debug',
+    detail: 'eleScreen',
+    xpath,
+  });
 };
 const clearLog = () => {
   stepLog.value = [];
@@ -1340,50 +1345,40 @@ const setStepLog = (data) => {
 const runStep = () => {
   debugLoading.value = true;
   activeTab2.value = 'log';
-  websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'runStep',
-        caseId: testCase.value.id,
-        pwd: device.value.password,
-      })
-  );
+  websocketSend({
+    type: 'debug',
+    detail: 'runStep',
+    caseId: testCase.value.id,
+    pwd: device.value.password,
+  });
 };
 const stopStep = () => {
   debugLoading.value = false;
-  websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'stopStep',
-        udId: device.value.udId,
-        caseId: testCase.value.id,
-        pf: device.value.platform,
-      })
-  );
+  websocketSend({
+    type: 'debug',
+    detail: 'stopStep',
+    udId: device.value.udId,
+    caseId: testCase.value.id,
+    pf: device.value.platform,
+  });
 };
 const pressKey = (keyNum) => {
-  websocket.send(
-      JSON.stringify({
-        type: 'keyEvent',
-        detail: keyNum,
-      })
-  );
+  websocketSend({
+    type: 'keyEvent',
+    detail: keyNum,
+  });
 };
 const batteryDisconnect = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'battery',
-        detail: 0,
-      })
-  );
+  websocketSend({
+    type: 'battery',
+    detail: 0,
+  });
 };
 const batteryReset = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'battery',
-        detail: 1,
-      })
-  );
+  websocketSend({
+    type: 'battery',
+    detail: 1,
+  });
 };
 const changePic = (type) => {
   loading.value = true;
@@ -1431,12 +1426,10 @@ const pullResult = ref('');
 const pullFile = () => {
   pullResult.value = '';
   pullLoading.value = true;
-  websocket.send(
-      JSON.stringify({
-        type: 'pullFile',
-        path: pullPath.value,
-      })
-  );
+  websocketSend({
+    type: 'pullFile',
+    path: pullPath.value,
+  });
 };
 const fileLoading = ref(false);
 const upLoadFilePath = ref('');
@@ -1444,13 +1437,11 @@ const pushPath = ref('');
 const pushLoading = ref(false);
 const pushFile = () => {
   pushLoading.value = true;
-  websocket.send(
-      JSON.stringify({
-        type: 'pushFile',
-        file: upLoadFilePath.value,
-        path: pushPath.value,
-      })
-  );
+  websocketSend({
+    type: 'pushFile',
+    file: upLoadFilePath.value,
+    path: pushPath.value,
+  });
 };
 const uploadFile = (content) => {
   fileLoading.value = true;
@@ -1525,44 +1516,34 @@ const uploadScan = (content) => {
       });
 };
 const scan = (url) => {
-  websocket.send(
-      JSON.stringify({
-        type: 'scan',
-        url,
-      })
-  );
+  websocketSend({
+    type: 'scan',
+    url,
+  });
 };
 const sendText = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'text',
-        detail: 'CODE_AC_CLEAN',
-      })
-  );
+  websocketSend({
+    type: 'text',
+    detail: 'CODE_AC_CLEAN',
+  });
 };
 const startKeyboard = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'startKeyboard',
-      })
-  );
+  websocketSend({
+    type: 'startKeyboard',
+  });
 };
 const stopKeyboard = () => {
-  websocket.send(
-      JSON.stringify({
-        type: 'stopKeyboard',
-      })
-  );
+  websocketSend({
+    type: 'stopKeyboard',
+  });
 };
 const install = (apk) => {
   if (apk.length > 0) {
-    websocket.send(
-        JSON.stringify({
-          type: 'debug',
-          detail: 'install',
-          apk,
-        })
-    );
+    websocketSend({
+      type: 'debug',
+      detail: 'install',
+      apk,
+    });
     ElMessage.success({
       message: $t('androidRemoteTS.startInstall'),
     });
@@ -1571,37 +1552,30 @@ const install = (apk) => {
 const getElement = () => {
   elementLoading.value = true;
   setImgData();
-  websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'tree',
-        isMulti: isMultiWindows.value,
-        isIgnore: isIgnore.value,
-        isVisible: isVisible.value,
-      })
-  );
+  websocketSend({
+    type: 'debug',
+    detail: 'tree',
+    isMulti: isMultiWindows.value,
+    isIgnore: isIgnore.value,
+    isVisible: isVisible.value,
+  });
 };
 const getPoco = (engine, port) => {
   pocoLoading.value = true;
-  websocket.send(
-      JSON.stringify({
-        type: 'debug',
-        detail: 'poco',
-        engine,
-        port,
-      })
-  );
+  websocketSend({
+    type: 'debug',
+    detail: 'poco',
+    engine,
+    port,
+  });
 };
 const getWebViewForward = () => {
   webViewLoading.value = true;
-  websocket.send(
-      JSON.stringify({
-        type: 'forwardView',
-      })
-  );
+  websocketSend({
+    type: 'forwardView',
+  });
 };
 const close = (msg) => {
-  console.log(msg, (msg ? 1 : 0))
   const cl = () => {
     if (websocket !== null) {
       websocket.close();
@@ -1623,7 +1597,7 @@ const close = (msg) => {
     window.close();
   }
   if (msg) {
-    ElMessageBox.confirm((msg ? '出现 ' + msg + '，' : '') + ' 是否关闭此窗口?', '提示', {
+    ElMessageBox.confirm((msg ? msg + '，' : '') + ' 是否关闭此窗口?', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning'
