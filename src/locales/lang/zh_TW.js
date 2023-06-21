@@ -346,6 +346,7 @@ const routes = {
   reportDetails: '報告詳情',
   publicSteps: '公共步驟',
   controlElement: '控件元素',
+  accounts: '帐号管理',
   globalParameter: '全域參數',
   moduleManage: '模組管理',
   versionIteration: '版本反覆運算',

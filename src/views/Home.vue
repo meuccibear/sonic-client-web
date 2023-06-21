@@ -111,6 +111,11 @@ onMounted(() => {
             <i class="el-icon-document-add"></i>{{ $t('routes.scripts') }}
           </el-menu-item>
           <el-menu-item
+            :index="'/Home/' + route.params.projectId + '/Accounts'"
+          >
+            <i class="el-icon-user"></i>{{ $t('routes.accounts') }}
+          </el-menu-item>
+          <el-menu-item
             :index="'/Home/' + route.params.projectId + '/GlobalParams'"
           >
             <i class="el-icon-user"></i>{{ $t('routes.globalParameter') }}

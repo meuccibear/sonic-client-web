@@ -404,6 +404,7 @@ const routes = {
   reportDetails: 'Report Details',
   publicSteps: 'Public Steps',
   controlElement: 'Element',
+  accounts: 'Account Manage',
   globalParameter: 'Global Parameter',
   moduleManage: 'Modules Manage',
   versionIteration: 'Version Manage',

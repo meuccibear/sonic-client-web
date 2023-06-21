@@ -348,6 +348,7 @@ const routes = {
   reportDetails: '詳細のレポート',
   publicSteps: '共通の手順',
   controlElement: 'コントロール要素',
+  accounts: 'Account Manage',
   globalParameter: 'グローバルパラメータ',
   moduleManage: 'モジュール管理',
   versionIteration: 'バージョン反復',

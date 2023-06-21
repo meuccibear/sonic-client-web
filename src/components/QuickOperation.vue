@@ -23,8 +23,11 @@ const loading = ref(false);
 const project = ref({
   id: route.params.projectId,
   groupId: null,
+  // groupIds: [],
   caseId: null,
-  steps: []
+  steps: [],
+  script: null,
+  // deviceIds: []
 });
 
 const formData = ref({
@@ -32,7 +35,9 @@ const formData = ref({
   cases: []
 });
 
-const getTestCaseList = () => {
+const getTestCaseList = (data) => {
+  // console.log(JSON.stringify(project.value.groupId))
+  // console.log(JSON.stringify(data))
   tableLoading.value = true;
   let platform = null
   formData.value.groups.forEach(function (data, index) {
@@ -41,17 +46,16 @@ const getTestCaseList = () => {
     }
   })
 
-  axios
-      .get('/controller/testCases/listAll', {
-        params: {
-          projectId: project.value.id,
-          platform: platform
-        },
-      })
-      .then((resp) => {
-        formData.value.cases = resp.data;
-        tableLoading.value = false;
-      });
+  axios.get('/controller/testCases/listAll', {
+    params: {
+      projectId: project.value.id,
+      platform: platform
+    },
+  }).then((resp) => {
+    formData.value.cases = resp.data;
+    formData.value.cases.push({id: -10, name: "执行脚本"})
+    tableLoading.value = false;
+  });
 };
 const getTestSuitesList = () => {
   tableLoading.value = true;
@@ -68,10 +72,34 @@ const getTestSuitesList = () => {
 };
 
 const projectUpdateForm = ref(null);
+const substr = (data, key) => {
+  // console.log('data:', data)
+  let index = data.indexOf(key)
+  // console.log(index, index + key.length)
+  if (index > -1) {
+    let result = data.substring(index + key.length)
+    // console.log('result:', result)
+    return result
+  }
+  return undefined
+}
 const summit = () => {
   projectUpdateForm.value.validate((valid) => {
     if (valid) {
-      // console.log('params:', JSON.stringify(project.value))
+      // console.log('params:', JSON.stringify(formData.value.groupId))
+      // project.value.deviceIds = []
+      // project.value.groupIds = []
+      // formData.value.groupId.forEach(function (data, index) {
+      //   if (data.length > 1) {
+      //     project.value.deviceIds.push(substr(data[data.length - 1], "device_") - 0)
+      //   }else{
+      //     project.value.groupIds.push(substr(data[data.length - 1], "group_") - 0)
+      //   }
+      // })
+      // let set = new Set(project.value.deviceIds);
+      // project.value.deviceIds = Array.from(set);
+      // console.log('arr', project.value.deviceIds)
+
       loading.value = true;
       axios.post('/controller/testSuites/run', project.value).then((resp) => {
         loading.value = false;
@@ -109,28 +137,30 @@ const getStepsList = (caseId) => {
       })
       .then((resp) => {
         project.value.steps = resp.data
-        console.log(project.value.steps)
+        console.log('data', project.value.steps)
       });
 };
 const getCaseInfo = () => {
-  axios
-      .get('/controller/testCases', {
-        params: {
-          id: project.value.caseId
-        },
-      })
-      .then((resp) => {
-        if (resp.code === 2000) {
-          testCase.value = resp.data;
-          getStepsList(testCase.value.id)
-        }
-      });
+  console.log('caseId::', project.value.caseId)
+  if (project.value.caseId != -10) {
+    axios.get('/controller/testCases', {
+      params: {
+        id: project.value.caseId
+      },
+    }).then((resp) => {
+      if (resp.code === 2000) {
+        testCase.value = resp.data;
+        getStepsList(testCase.value.id)
+      }
+    });
+  }
 };
 onMounted(() => {
   if (props.isUpdate) {
     // console.log(store.state.project)
     // project.value = JSON.parse(JSON.stringify(store.state.project));
     getTestSuitesList()
+    // getTestCaseList()
   }
 });
 </script>
@@ -142,7 +172,25 @@ onMounted(() => {
       label-width="100px"
       class="project-table-expand"
   >
+
+    <el-form-item :label="$t('form.script')">
+      <el-input
+          v-model="project.script"
+          :autosize="{ minRows: 2, maxRows: 4 }"
+          type="textarea"
+      />
+    </el-form-item>
     <el-form-item :label="$t('form.group')">
+<!--      <el-cascader-->
+<!--          style="width: 78vw"-->
+<!--          :placeholder="$t('form.groupPlaceholder')"-->
+<!--          v-model="formData.groupId"-->
+<!--          :options="formData.groups"-->
+<!--          emitPath="false"-->
+<!--          clearable-->
+<!--          :props="{ multiple: true }"-->
+<!--          filterable-->
+<!--      />-->
       <el-select
           v-model="project.groupId"
           style="width: 100%"
@@ -178,11 +226,11 @@ onMounted(() => {
   </el-form>
   <el-row
       :gutter="20"
-      v-show="project.caseId"
+      v-show="project.caseId ? project.caseId != -10 : false"
   >
     <el-col :span="6">
       <el-card>
-        <template ><strong>{{ $t('stepListViewTS.caseInfo') }}</strong></template
+        <template><strong>{{ $t('stepListViewTS.caseInfo') }}</strong></template
         >
         <el-form
             v-if="testCase['id']"

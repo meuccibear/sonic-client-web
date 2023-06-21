@@ -358,6 +358,7 @@ const form = {
   inputNewPasswordAgain: '请再次输入新密码',
   confirm: '确定',
   cancel: '取消',
+  script: '脚本',
 };
 // 弹窗相关
 const dialog = {
@@ -404,6 +405,7 @@ const routes = {
   reportDetails: '报告详情',
   publicSteps: '公共步骤',
   controlElement: '控件元素',
+  accounts: '帐号管理',
   globalParameter: '全局参数',
   moduleManage: '模块管理',
   versionIteration: '版本迭代',
@@ -470,6 +472,39 @@ const globalParamsTs = {
     value: '参数值',
   },
   delMessage: '确定删除该全局参数吗?',
+};
+const accountsTs = {
+  dialogVisible: {
+    info: '帐号管理',
+    addInfo: '添加帐号',
+    updateInfo: '修改帐号',
+    specialUse: '特殊使用',
+    messageInfo:
+        "如有多个参数值可以用 '{'|'}'号隔开，分配设备时会随机分配，单次任务内参数值只会取同一个。【random】和【timestamp】参数已内置，可用作构造随机数据",
+    keyNameMessage: '参数名不能为空，建议使用英文',
+    inputName: '请输入用户名',
+    inputPassword: '请输入密码',
+    valueNameMessage: "参数值不能为空",
+    inputValue: "请输入参数值，多个可以用 '{'|'}' 号隔开",
+    name: "用户名",
+    password: "密码"
+  },
+  addAccounts: '添加帐号',
+  paramsList: {
+    id: '参数id',
+    name: '用户名',
+    password: '密码',
+    appName: "App名称",
+    status: "状态"
+  },
+  status: {
+    status: '状态',
+    delete: '删除',
+    nornal: '正常',
+    inUse: '使用中',
+    unaleUse: '无法使用'
+  },
+  delMessage: '确定删除该帐号吗?',
 };
 const homeTS = {
   projectOverview: '项目概况',
@@ -1079,6 +1114,7 @@ export default {
     setting,
     androidTestCase,
     elements,
+    accountsTs,
     globalParamsTs,
     homeTS,
     jobsTS,
