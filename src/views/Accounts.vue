@@ -17,6 +17,7 @@ const accounts = ref({
   projectId: route.params.projectId,
   name: '',
   password: '',
+  status: 1
 });
 const editaccounts = async (id) => {
   await open();
@@ -115,7 +116,7 @@ onMounted(() => {
         label-position="left"
     >
       <el-form-item
-          prop="paramsKey"
+          prop="appName"
           label="App"
           :rules="{
           required: true,
