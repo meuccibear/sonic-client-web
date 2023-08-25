@@ -1,7 +1,7 @@
 <script setup>
 /*
- *   sonic-client-web  Front end of Sonic cloud real machine platform.
- *   Copyright (C) 2022 SonicCloudOrg
+ *   sonic-client-web  Front end of ZPUTech cloud real machine platform.
+ *   Copyright (C) 2022 ZPUTechCloudOrg
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU Affero General Public License as published
@@ -201,7 +201,7 @@ const getNotes = (text, type) => {
     <el-tag size="small">锁定设备</el-tag>
   </span>
   <span v-if="step.stepType === 'closeKeyboard'">
-    <el-tag size="small">关闭Sonic输入法</el-tag>
+    <el-tag size="small">关闭ZPUTech输入法</el-tag>
   </span>
   <span v-if="step.stepType === 'unLock'">
     <el-tag size="small">解锁设备</el-tag>

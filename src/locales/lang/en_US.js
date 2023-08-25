@@ -330,7 +330,7 @@ const layout = {
   aboutSonic: 'About Sonic',
   backHome: 'Home',
   welcomeSpeech:
-    'Welcome to Sonic cloud real machine testing platform. Please select the project to enter.',
+    'Welcome to ZPUTech cloud real machine testing platform. Please select the project to enter.',
   addProject: 'New Project',
   officialWebSite: 'Sonic Official WebSite',
   document: 'Document',
@@ -843,9 +843,9 @@ const androidRemoteTS = {
     clear: 'Clear',
     send: 'Send',
     keyboard:
-      'Clear input box and real-time input are only available when Sonic Keyboard is enable',
-    startKeyboard: 'Enable Sonic Keyboard',
-    stopKeyboard: 'Disable Sonic Keyboard',
+      'Clear input box and real-time input are only available when ZPUTech Keyboard is enable',
+    startKeyboard: 'Enable ZPUTech Keyboard',
+    stopKeyboard: 'Disable ZPUTech Keyboard',
     remoteADB: 'Remote ADB',
     noAgent: 'The Agent is not enabled!',
     UIAutomator2ServerInit: 'Initialize UIAutomator2Server',

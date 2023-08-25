@@ -35,7 +35,7 @@
 [Sonic Official Website](https://sonic-cloud.cn)
 ## 背景
 
-#### 什么是 Sonic ?
+#### 什么是 ZPUTech ?
 
 > Sonic是一个集移动设备远程控制调试与自动化的平台，用心为全球开发者以及工程师打造更好的使用体验。
 >

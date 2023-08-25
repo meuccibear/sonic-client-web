@@ -1,7 +1,7 @@
 <script setup>
 /*
- *   sonic-client-web  Front end of Sonic cloud real machine platform.
- *   Copyright (C) 2022 SonicCloudOrg
+ *   sonic-client-web  Front end of ZPUTech cloud real machine platform.
+ *   Copyright (C) 2022 ZPUTechCloudOrg
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU Affero General Public License as published
@@ -413,11 +413,11 @@ const androidOptions = ref([
         children: [
           {
             value: 'sendKeyForce',
-            label: 'Sonic输入法输入',
+            label: 'ZPUTech输入法输入',
           },
           {
             value: 'closeKeyboard',
-            label: '关闭Sonic输入法',
+            label: '关闭ZPUTech输入法',
           },
           {
             value: 'setClipperByKeyboard',
