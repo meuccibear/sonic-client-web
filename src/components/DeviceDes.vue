@@ -239,7 +239,8 @@ const findAgentById = (id) => {
             <span style="margin-left: 6px">{{ device.version }}</span>
           </el-form-item>
           <el-form-item :label="$t('devices.detail.udId')">
-            <span>{{ device.udId.substring(0, device.udId.indexOf(':')) }}</span>
+<!--            <span>{{device.udId.substring(0, device.udId.indexOf(':')) }}</span>-->
+            <span>{{ device.udId }}</span>
           </el-form-item>
           <el-form-item :label="$t('devices.form.battery.temperature')">
             <div

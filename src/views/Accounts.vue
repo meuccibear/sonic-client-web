@@ -17,6 +17,7 @@ const accounts = ref({
   projectId: route.params.projectId,
   name: '',
   password: '',
+  udId: '',
   status: 1
 });
 const editaccounts = async (id) => {
@@ -172,6 +173,15 @@ onMounted(() => {
       >
         <el-input
             v-model="accounts.password"
+            :placeholder="$t('accountsTs.dialogVisible.inputPassword')"
+        ></el-input>
+      </el-form-item>
+      <el-form-item
+          :label="$t('accountsTs.dialogVisible.udId')"
+          prop="udId"
+      >
+        <el-input
+            v-model="accounts.udId"
             :placeholder="$t('accountsTs.dialogVisible.inputPassword')"
         ></el-input>
       </el-form-item>

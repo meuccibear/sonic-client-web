@@ -484,10 +484,12 @@ const accountsTs = {
     keyNameMessage: '参数名不能为空，建议使用英文',
     inputName: '请输入用户名',
     inputPassword: '请输入密码',
+    inputUdId: '请输入udid',
     valueNameMessage: "参数值不能为空",
     inputValue: "请输入参数值，多个可以用 '{'|'}' 号隔开",
     name: "用户名",
-    password: "密码"
+    password: "密码",
+    udId: "udid"
   },
   addAccounts: '添加帐号',
   paramsList: {
